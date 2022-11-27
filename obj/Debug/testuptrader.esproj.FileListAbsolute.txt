@@ -1,0 +1,2 @@
+C:\Users\Andrew\source\repos\testuptrader\obj\Debug\testuptrader.esproj.SuggestedBindingRedirects.cache
+C:\Users\Andrew\source\repos\testuptrader\obj\Debug\testuptrader.esproj.CoreCompileInputs.cache

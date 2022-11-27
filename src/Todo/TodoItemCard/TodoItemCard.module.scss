@@ -1,0 +1,10 @@
+.container{
+    display: grid;
+    grid-auto-flow: column;
+    height: 10rem;
+    background-color: blue;
+    color: white;
+    & a{
+        color: white;
+    }
+}
