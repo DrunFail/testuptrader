@@ -1,7 +1,6 @@
-import { isVisible } from "@testing-library/user-event/dist/utils";
 import { useState } from "react";
+import { Comment } from "../../../interfaces/interfaces";
 import Modal from "../../Modal/Modal";
-import { Comment } from "../../Todo/interfaces/interfaces";
 import AddComment from "../AddComment/AddComment";
 
 interface CommentCardProps {

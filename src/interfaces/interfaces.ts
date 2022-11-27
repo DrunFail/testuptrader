@@ -1,6 +1,3 @@
-
-
-
 export interface Comment {
     id: number,
     taskId: number,
@@ -20,20 +17,11 @@ export interface Todo {
     dateEnd: string | null,
     priority: string,
     files: string | null,
-    currentStatus: string
+    currentStatus: 'Queue' | 'Development' | 'Done'
 
 }
 
 export interface TodoItem extends Todo {
-    id: number,
-    title: string,
-    description: string,
-    dateCreate: string,
-    timeWork: string,
-    dateEnd: string,
-    priority: string,
-    files: string,
-    currentStatus: string,
     nestedTasks: Todo[],
     comments: Comment[]
 }

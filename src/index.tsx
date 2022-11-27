@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Projects from './Projects/Projects';
-import Layout from './Layout/Layout';
-import TodoList from './Todo/TodoList';
-import TodoItemPage from './Todo/TodoItemPage/TodoItemPage';
+import './styles/index.scss';
+import Layout from './components/Layout/Layout';
+import Projects from './components/Projects/Projects';
+import TodoItemPage from './components/Todo/TodoItemPage/TodoItemPage';
+import TodoList from './components/Todo/TodoList';
 
 
 const root = ReactDOM.createRoot(

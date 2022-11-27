@@ -1,0 +1,32 @@
+.header {
+    display: grid;
+    grid-auto-flow: column;
+    height: 8rem;
+    background-image: url(https://nutrisnax.ie/wp-content/uploads/2017/07/contactus-banner.jpg);
+    text-decoration: none;
+    text-transform: capitalize;
+    font-size: 1.4rem;
+    padding: 1rem;
+
+
+    .navbar {
+        color: green;
+
+        & ul {
+            display: flex;
+            justify-content: space-around;
+
+            & li a {
+                color: black;
+                padding: 0.3rem;
+
+                &:hover {
+                    background: rgb(2,0,36);
+                    background: linear-gradient(0deg, rgba(2,0,36,1) 0%, rgba(67,129,236,1) 24%, rgba(0,212,255,1) 100%);
+                    color: white;
+                    border-radius: 0.3rem;
+                }
+            }
+        }
+    }
+}

@@ -1,7 +1,6 @@
-import { useState } from "react";
 import { useParams } from "react-router-dom";
 import CommentList from "../../Comments/CommentsList";
-import { FAKE_DATA } from "../../data";
+import { FAKE_DATA } from "../../../data/data";
 
 export default function TodoItemPage() {
     const { todoId } = useParams();
@@ -14,13 +13,9 @@ export default function TodoItemPage() {
         throw new Error('error TodoPage, not find todo')
     }
 
-    
-  
-    
 
     return (
         <div>
-            
             <CommentList  todoId={todoId }/>
         </div>
         

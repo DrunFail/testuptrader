@@ -1,4 +1,4 @@
-import { Todo, Comment } from "./Todo/interfaces/interfaces";
+import { Todo, Comment } from "../interfaces/interfaces";
 
 export const FAKE_DATA: Todo[] = [{
     'id': 1,
@@ -9,7 +9,7 @@ export const FAKE_DATA: Todo[] = [{
     'dateEnd': null,
     'priority': 'high',
     'files': null,
-    'currentStatus': 'work'
+    'currentStatus': 'Development'
 },
 {
 
@@ -21,7 +21,7 @@ export const FAKE_DATA: Todo[] = [{
     'dateEnd': null,
     'priority': 'high',
     'files': null,
-    'currentStatus': 'work'
+    'currentStatus': 'Queue'
 }
 
 ]

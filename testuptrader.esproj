@@ -12,16 +12,12 @@
     <BuildOutputFolder>$(MSBuildProjectDirectory)\build</BuildOutputFolder>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="src\Comments\CommentCard\" />
-    <Folder Include="src\Comments\AddComment\" />
-    <Folder Include="src\Layout\" />
-    <Folder Include="src\Projects\ProjectCard\" />
-    <Folder Include="src\Todo\interfaces\" />
-    <Folder Include="src\Todo\TodoItemCard\" />
-    <Folder Include="src\Todo\TodoItemPage\" />
-    <Folder Include="src\Todo\AddTodo\" />
-    <Folder Include="src\Tree\" />
-    <Folder Include="src\Header\" />
-    <Folder Include="src\Modal\" />
+    <Folder Include="src\components\DragNDrop\DragCard\" />
+    <Folder Include="src\components\Layout\" />
+    <Folder Include="src\components\Projects\ProjectCard\" />
+    <Folder Include="src\components\Tree\" />
+    <Folder Include="src\components\Header\" />
+    <Folder Include="src\components\Modal\" />
+    <Folder Include="src\styles\" />
   </ItemGroup>
 </Project>
