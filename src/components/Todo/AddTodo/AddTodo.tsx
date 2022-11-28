@@ -1,3 +1,4 @@
+import CustomButton from '../../../ui/buttons/CustomButton/CustomButton';
 import styles from './AddTodo.module.scss';
 
 
@@ -19,7 +20,7 @@ export default function AddTodo() {
               
                 
                 
-                <button>create</button>
+                <CustomButton children='create'/>
 
             </form>        </section>
         );

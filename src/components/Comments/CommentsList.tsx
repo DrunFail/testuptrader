@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { Comment } from "../../interfaces/interfaces";
+import CustomButton from "../../ui/buttons/CustomButton/CustomButton";
 import Modal from "../Modal/Modal";
 import AddComment from "./AddComment/AddComment";
 import CommentCard from "./CommentCard/CommentCard";
@@ -68,8 +69,11 @@ export default function CommentList() {
         <section className={styles.container }>
             <h1 >Comments List</h1>
             {!Object.keys(comments).length && <p> there no comment</p> }
-            <Modal textButton='add' children={<AddComment onAdd={onAdd }/> } />
-            <section className={styles.commentList }>
+            <Modal
+                textButton='add'
+                children={<AddComment onAdd={onAdd} />} />
+
+            <section className={styles.commentList}>
                 {enhancedComments.map((comment, key) => {
                     return (
                         <CommentCard

@@ -18,5 +18,6 @@
     <Folder Include="src\components\Header\" />
     <Folder Include="src\components\Modal\" />
     <Folder Include="src\styles\" />
+    <Folder Include="src\ui\buttons\CustomButton\" />
   </ItemGroup>
 </Project>

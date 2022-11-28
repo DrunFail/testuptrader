@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import CustomButton from '../../ui/buttons/CustomButton/CustomButton';
 import styles from './Modal.module.scss';
 
 
@@ -16,8 +17,7 @@ export default function Modal({ children, textButton }: ModalProps) {
 
     return (
         <>
-        <button onClick={() => setIsVisibleModal(!isVisibleModal)}>{textButton }</button>
-
+            <CustomButton children={textButton} onClick={() => setIsVisibleModal(!isVisibleModal) } />
         {isVisibleModal &&
                 <div className={styles.container}>
                    

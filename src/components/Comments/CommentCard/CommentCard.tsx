@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { Comment } from "../../../interfaces/interfaces";
+import Modal from "../../Modal/Modal";
+import AddComment from "../AddComment/AddComment";
 import styles from './CommentCard.module.scss';
 
 
@@ -11,15 +13,11 @@ interface CommentCardProps {
 
 export default function CommentCard({ comment, addComment }: CommentCardProps) {
     const { commentText, childComments, id } = comment;
-    const [childComment, setChildComment] = useState("");
     const [show, setShow] = useState(true);
-    const [showAddComponent, setShowAddComponent] = useState(false);
 
 
-    const onAdd = () => {
+    const onAddNested = (childComment: string) => {
         addComment(id, childComment);
-        setChildComment("");
-        setShowAddComponent(false);
     };
 
 
@@ -28,24 +26,7 @@ export default function CommentCard({ comment, addComment }: CommentCardProps) {
             <div className={styles.container} >
                 <p className={styles.commentTitle}>{commentText} </p>
 
-                <a
-                    style={{ cursor: "pointer", fontSize: "0.7rem", color: "blue" }}
-                    onClick={() => setShowAddComponent(!showAddComponent)}
-                >
-                    Add a reply
-                </a>
-
-                {showAddComponent &&
-                    <>
-                        <input
-                            type="text"
-                            value={childComment}
-                            onChange={(e) => setChildComment(e.target.value)}
-                            placeholder="add comment"
-                        />
-                        <button onClick={onAdd}>Submit</button>
-                    </>
-                }
+                <Modal textButton='add reply' children={<AddComment onAdd={onAddNested }/> }/>
 
                 {childComments.length > 0 && 
                     <div

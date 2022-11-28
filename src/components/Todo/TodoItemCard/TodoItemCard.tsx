@@ -5,6 +5,8 @@ import styles from './TodoItemCard.module.scss';
 import EditTodo from "../EditTodo/EditTodo";
 import { useState } from "react";
 import CommentList from "../../Comments/CommentsList";
+import CustomButton from "../../../ui/buttons/CustomButton/CustomButton";
+import AddComment from "../../Comments/AddComment/AddComment";
 
 interface TodoItemCardProps {
     item: Todo,
@@ -50,7 +52,8 @@ export default function TodoItemCard({ item, handleDragging }: TodoItemCardProps
             {openTodoCard &&
                 <>
                 <div className={styles.nestedTodo}>
-                        <h5>mini Todo</h5>
+                    <h5>mini Todo</h5>
+                    <Modal textButton='add minitask' children={<AddTodo /> }/>
                         {item.nestedTodo.map(item =>
                             <TodoItemCard
                                 key={item.id}
