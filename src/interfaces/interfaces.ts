@@ -1,9 +1,9 @@
 export interface Comment {
-    id: number,
-    taskId: number,
-    commentId: number | null,
-    value: string,
-    comments: Comment[]
+    id: string,
+    commentText: string,
+    parentNodeId: string | null,
+    isRootNode: boolean,
+    childComments: Comment[]
     
 }
 
@@ -17,11 +17,7 @@ export interface Todo {
     dateEnd: string | null,
     priority: string,
     files: string | null,
-    currentStatus: 'Queue' | 'Development' | 'Done'
+    currentStatus: 'Queue' | 'Development' | 'Done',
+    nestedTodo: Todo[]
 
-}
-
-export interface TodoItem extends Todo {
-    nestedTasks: Todo[],
-    comments: Comment[]
 }

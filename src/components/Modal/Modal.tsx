@@ -10,18 +10,23 @@ interface ModalProps {
 export default function Modal({ children, textButton }: ModalProps) {
     const [isVisibleModal, setIsVisibleModal] = useState(false)
 
+    const closeModal = () => {
+        setIsVisibleModal(!isVisibleModal)
+    }
 
-
-    return (<>
+    return (
+        <>
         <button onClick={() => setIsVisibleModal(!isVisibleModal)}>{textButton }</button>
 
         {isVisibleModal &&
-            <div className={styles.container}>
+                <div className={styles.container}>
+                   
                 <div className={styles.modalContent}>
+                        <button onClick={() => setIsVisibleModal(!isVisibleModal)}>close</button>
+                            {children}
+                       
 
-                    {children}
-
-                    <button onClick={() => setIsVisibleModal(!isVisibleModal) }>close</button>
+                    
                 </div>
 
             </div>

@@ -27,7 +27,7 @@ export default function DragCard({ elem, isDragging, handleDragging }: DragCardP
         handleDragging(false)
     }
     const handleDragEnter = (e: React.DragEvent<HTMLDivElement>) => {
-        
+
         setDragEnter(true)
     }
     const handleDragLeave = (e: React.DragEvent<HTMLElement>) => setDragEnter(false)
@@ -38,15 +38,19 @@ export default function DragCard({ elem, isDragging, handleDragging }: DragCardP
 
 
     return (
-        <div
-            className={styles[getClassName(isDragging, dragEnter)]}
-            onDrop={handleDrop}
-            onDragOver={handleDragOver}
-            onDragEnter={handleDragEnter}
-            onDragLeave={handleDragLeave }
-        >
-            {elem}
-        </div>
+        <>
+            {isDragging &&
+                <div
+                    className={styles[getClassName(isDragging, dragEnter)]}
+                    onDrop={handleDrop}
+                    onDragOver={handleDragOver}
+                    onDragEnter={handleDragEnter}
+                    onDragLeave={handleDragLeave}
+                >
+                    {elem}
+                </div>
+            }
+        </>
 
     );
 }

@@ -1,38 +1,78 @@
 import { useState } from "react";
 import { Comment } from "../../../interfaces/interfaces";
-import Modal from "../../Modal/Modal";
-import AddComment from "../AddComment/AddComment";
+import styles from './CommentCard.module.scss';
+
 
 interface CommentCardProps {
-    item: Comment,
+    comment: Comment,
+    addComment: (parentNodeId: string | null, commentValue: string) => void
 }
 
 
-export default function CommentCard({ item }: CommentCardProps) {
-    const [isVisibleBranch, setIsVisibleBranch] = useState(false)
+export default function CommentCard({ comment, addComment }: CommentCardProps) {
+    const { commentText, childComments, id } = comment;
+    const [childComment, setChildComment] = useState("");
+    const [show, setShow] = useState(true);
+    const [showAddComponent, setShowAddComponent] = useState(false);
 
-    let children = null
-    if (item.comments.length !== 0) {
-        children = (isVisibleBranch &&
-            <ul>
-                {item.comments.map(elem =>
-                    <CommentCard  item={elem} key={elem.id} />)}
-            </ul>)
-    }
-    
+
+    const onAdd = () => {
+        addComment(id, childComment);
+        setChildComment("");
+        setShowAddComponent(false);
+    };
 
 
     return (
         <>
-            <p>{item.value}</p>
-            {item.comments.length &&
-                <button
-                    onClick={() => setIsVisibleBranch(!isVisibleBranch)}>
-                    развернуть ветку({item.comments.length})
-                </button>}
-            
-            <Modal textButton='ответить' children={<AddComment /> }/>
-            {isVisibleBranch && children}
+            <div className={styles.container} >
+                <p className={styles.commentTitle}>{commentText} </p>
+
+                <a
+                    style={{ cursor: "pointer", fontSize: "0.7rem", color: "blue" }}
+                    onClick={() => setShowAddComponent(!showAddComponent)}
+                >
+                    Add a reply
+                </a>
+
+                {showAddComponent &&
+                    <>
+                        <input
+                            type="text"
+                            value={childComment}
+                            onChange={(e) => setChildComment(e.target.value)}
+                            placeholder="add comment"
+                        />
+                        <button onClick={onAdd}>Submit</button>
+                    </>
+                }
+
+                {childComments.length > 0 && 
+                    <div
+                        className={styles[show ? 'openArrow' : 'arrow']}
+                        onClick={() => setShow((show) => !show)}
+                    >
+                        <span className={styles.arrowLeft }></span>
+                        <span className={styles.arrowRight }></span>
+                    </div>
+                }
+
+
+            </div>
+            {comment.childComments.length > 0 && <div className={styles.nestedComment} style={{ marginLeft: '10px' }}>
+                {show &&
+                    childComments.map((childCommentEl, key) => {
+                        return (
+                            <CommentCard
+                                key={key}
+                                comment={childCommentEl}
+                                addComment={addComment}
+                            />
+                        );
+                    })
+                }
+            </div>}
+
         </>
     );
-}
+};

@@ -16,7 +16,7 @@ export default function TodoItemPage() {
 
     return (
         <div>
-            <CommentList  todoId={todoId }/>
+            <CommentList />
         </div>
         
         );

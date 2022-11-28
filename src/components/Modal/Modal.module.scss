@@ -1,13 +1,23 @@
-.container{
+.container {
     display: flex;
     justify-content: center;
     align-items: center;
-    position: absolute;
+    position: fixed;
     height: 100vh;
     width: 100vw;
-    .modalContent{
-        position: absolute;
-        top: 0;
-        left: 0;
+    top: 0;
+    left: 0;
+
+
+    .modalContent {
+        position: relative;
+
+        & > button {
+            position: absolute;
+            inset-inline-end: 0;
+            inset-block-start: 0;
+            margin-block-start: 0.3rem;
+            margin-inline-end: 0.3rem;
+        }
     }
 }

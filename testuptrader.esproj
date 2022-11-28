@@ -14,8 +14,7 @@
   <ItemGroup>
     <Folder Include="src\components\DragNDrop\DragCard\" />
     <Folder Include="src\components\Layout\" />
-    <Folder Include="src\components\Projects\ProjectCard\" />
-    <Folder Include="src\components\Tree\" />
+    <Folder Include="src\components\Todo\EditTodo\" />
     <Folder Include="src\components\Header\" />
     <Folder Include="src\components\Modal\" />
     <Folder Include="src\styles\" />

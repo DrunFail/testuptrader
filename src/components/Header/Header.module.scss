@@ -1,7 +1,7 @@
 .header {
     display: grid;
     grid-auto-flow: column;
-    height: 8rem;
+    height: 5rem;
     background-image: url(https://nutrisnax.ie/wp-content/uploads/2017/07/contactus-banner.jpg);
     text-decoration: none;
     text-transform: capitalize;
@@ -14,7 +14,9 @@
 
         & ul {
             display: flex;
-            justify-content: space-around;
+            justify-content: flex-end;
+            margin-inline-end: 5rem;
+            gap: 2rem;
 
             & li a {
                 color: black;

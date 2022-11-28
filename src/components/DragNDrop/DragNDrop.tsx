@@ -1,3 +1,4 @@
+import { BooleanLiteral } from "typescript";
 import DragCard from "./DragCard/DragCard";
 import styles from './DragNDrop.module.scss';
 
@@ -10,10 +11,15 @@ interface DragNDropProps {
 
 
 export default function DragNDrop({isDragging, handleDragging }: DragNDropProps) {
-    
+    const getClassName = (isDragging: Boolean): string => {
+        if (isDragging) {
+            return 'active'
+        }
+        return 'container'
+    }
 
     return (
-        <div className={styles.container }>
+        <div className={styles[getClassName(isDragging)] }>
             {COLUMNS.map(elem => <DragCard
                 key={elem}
                 elem={elem}

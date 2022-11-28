@@ -16,11 +16,11 @@ root.render(
         <BrowserRouter>
             <Routes>
                 <Route path='/' element={<Layout /> }>
-                    <Route path='projects' element={<Projects />} />
-                    <Route path='todo'>
-                        <Route index element={<TodoList />}/>
-                        <Route path=':todoId' element={<TodoItemPage /> } />
-                    </Route>
+                    <Route index element={<Projects />} />
+                    <Route path=':projectId' element={<TodoList /> } />
+                        {/*<Route index element={<TodoList />}/>*/}
+                        {/*<Route path=':todoId' element={<TodoItemPage /> } />*/}
+                   
                 </Route>
             </Routes>
         </BrowserRouter>

@@ -10,11 +10,13 @@ export default function TodoList() {
     const handleDragging = (dragging: boolean) => setIsDragging(dragging)
 
     return (
-        <section className={styles.container}>
-            <DragNDrop
+        <>
+        <DragNDrop
                 isDragging={isDragging}
                 handleDragging={handleDragging}
             />
+        <section className={styles.container}>
+            
             <h1>Список задач</h1>
             {FAKE_DATA.map(item =>
                 <TodoItemCard
@@ -25,6 +27,6 @@ export default function TodoList() {
                
             )}
         </section>
-
+</>
     );
 }

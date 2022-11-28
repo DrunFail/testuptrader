@@ -1,18 +1,32 @@
 .container {
     display: grid;
     grid-auto-flow: column;
-    height: 10rem;
+    height: 5rem;
     background: rgb(252,255,254);
     background: linear-gradient(4deg, rgba(252,255,254,1) 0%, rgba(0,94,255,1) 39%, rgba(255,255,255,1) 100%);
     color: white;
-    width: 80%;
+    width: 100%;
     margin: 0 auto;
     border-radius: 1rem;
     padding: 1rem;
     cursor: move;
-    
+    & p{
+        display: grid;
+    }
 
     & a {
         color: white;
     }
+
+    
+
 }
+.nestedTodo {
+    justify-self: flex-end;
+    margin-inline-start: 1rem;
+    display: grid;
+    grid-row-gap: 1rem;
+    width: 90%;
+}
+
+
