@@ -1,3 +1,5 @@
+@import '../../styles/_mixin.scss';
+
 .container {
     display: grid;
     grid-row-gap: 1rem;
@@ -6,5 +8,10 @@
 
     & h1 {
         font-size: 1.4rem;
+    }
+}
+@include s {
+    .container {
+        width: 100vw;
     }
 }

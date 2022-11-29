@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { FAKE_DATA } from "../../data/data";
 import { Todo } from "../../interfaces/interfaces";
 
 export default function Search() {
@@ -31,7 +30,7 @@ export default function Search() {
             })
         }
     }
-    search(FAKE_DATA)
+    
     
     return (
         <form>

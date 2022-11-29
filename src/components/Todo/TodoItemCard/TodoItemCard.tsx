@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Todo } from "../../../interfaces/interfaces";
+import { Comment, Todo } from "../../../interfaces/interfaces";
 import CommentList from "../../Comments/CommentsList";
 import Modal from "../../Modal/Modal";
 import AddTodo from "../AddTodo/AddTodo";
@@ -11,14 +11,15 @@ interface TodoItemCardProps {
     handleDragging: (dragging: boolean) => void,
     updateTodo: (id: number, newTododo: any) => void,
     deleteTodo: (id: number, parentId?: number) => void,
-    addNewTodo: (newTodo: Todo, parentId?: number | null | undefined) => void
+    addNewTodo: (newTodo: Todo, parentId?: number | null | undefined) => void,
+    up: (id: number, newComment: Comment[]) => void
    
 }
 
 
-export default function TodoItemCard({ item, handleDragging, updateTodo, deleteTodo , addNewTodo}: TodoItemCardProps) {
+export default function TodoItemCard({ item, handleDragging, updateTodo, deleteTodo, addNewTodo, up }: TodoItemCardProps) {
     const [openTodoCard, setOpenTodoCard] = useState(false)
-    
+
     const transferId = JSON.stringify({
         id: item.id,
         parentId: item.parentId
@@ -26,7 +27,7 @@ export default function TodoItemCard({ item, handleDragging, updateTodo, deleteT
     })
 
     const handleDragStart = (e: React.DragEvent<HTMLDivElement>) => {
-        e.dataTransfer.setData(`text` , transferId)
+        e.dataTransfer.setData(`text`, transferId)
         handleDragging(true)
     }
 
@@ -35,7 +36,13 @@ export default function TodoItemCard({ item, handleDragging, updateTodo, deleteT
 
     return (
         <>
-            <div onClick={() => setOpenTodoCard(!openTodoCard)}
+            <div onClick={() => {
+                if (item.parentId) {
+                    return
+                }
+                setOpenTodoCard(!openTodoCard)
+            }
+            }
                 id={`${item.id}`}
                 className={styles.container}
                 draggable
@@ -47,8 +54,8 @@ export default function TodoItemCard({ item, handleDragging, updateTodo, deleteT
                 <p><span>Priority</span> {item.priority}</p>
                 <p><span>Status</span> {item.currentStatus}</p>
                 <p><span>Name</span>  {item.title}</p>
-                <p><span>Date created</span> {item.dateCreated.toDateString()}</p>
-                <p><span>Time in work </span>{item.timeWork }</p>
+                <p><span>Date created</span> {item.title}</p>
+                <p><span>Time in work </span>{}</p>
                 <p><span>Date completed</span> {item.dateEnd}</p>
                 <p><span>files</span>  {item.files}</p>
                 <Modal children=<EditTodo updateTodo={updateTodo}  item={item }/> textButton='edit' />
@@ -69,7 +76,7 @@ export default function TodoItemCard({ item, handleDragging, updateTodo, deleteT
                                 deleteTodo={deleteTodo}
                                 updateTodo={updateTodo }                            />)}
                     </div>
-                      <CommentList /> 
+                <CommentList id={item.id} up={up} commentsList={item.comments }/> 
                     
                 </>
 

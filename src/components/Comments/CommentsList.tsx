@@ -1,7 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { Comment } from "../../interfaces/interfaces";
-import CustomButton from "../../ui/buttons/CustomButton/CustomButton";
 import Modal from "../Modal/Modal";
 import AddComment from "./AddComment/AddComment";
 import CommentCard from "./CommentCard/CommentCard";
@@ -19,9 +18,33 @@ const getNewComment = (commentValue: string, isRootNode = false, parentNodeId: s
 };
 
 
-export default function CommentList() {
-    const [comments, setComments] = useState<Comment>({});
+interface CommentListProps {
+    up: (id: number, newComment: Comment[]) => void,
+    id: number,
+    commentsList: Comment[]
+}
+
+
+
+
+export default function CommentList({ up, id, commentsList }: CommentListProps) {
+    const [comments, setComments] = useState<Comment[]>([]);
     const [rootComment, setRootComment] = useState("");
+
+    const initialState = commentsList ? commentsList : []
+    
+
+    useEffect(() => {
+        setComments(initialState)
+    },[])
+
+
+
+
+    useEffect(() => {
+        up(id, comments)
+    }, [comments])
+
 
 
     const addComment = (parentNodeId: string | null, commentValue: string) => {

@@ -13,7 +13,7 @@ interface CommentCardProps {
 
 export default function CommentCard({ comment, addComment }: CommentCardProps) {
     const { commentText, childComments, id } = comment;
-    const [show, setShow] = useState(true);
+    const [show, setShow] = useState(false);
 
 
     const onAddNested = (childComment: string) => {

@@ -7,6 +7,21 @@ export interface Comment {
     
 }
 
+export interface TodoItem {
+    id: number,
+    title: string,
+    description: string,
+    dateCreated: Date,
+    timeWork: null,
+    dateEnd: null,
+    parentId: number | null,
+    priority: 'Medium' | 'High' | 'Normal',
+    files: string | null,
+    currentStatus: 'Queue' | 'Development' | 'Done'
+}
+
+
+
 
 export interface Todo {
     id: number,
@@ -16,9 +31,16 @@ export interface Todo {
     timeWork: null,
     dateEnd: null,
     parentId: number | null,
-    priority: 'medium' | 'high' | 'normal',
+    priority: 'Medium' | 'High' | 'Normal',
     files: string | null,
     currentStatus: 'Queue' | 'Development' | 'Done',
-    nestedTodo: Todo[]
+    nestedTodo: TodoItem[],
+    comments: Comment[]
 
+}
+
+export interface Projects {
+    id: number,
+    title: string,
+    tasks: Todo[]
 }

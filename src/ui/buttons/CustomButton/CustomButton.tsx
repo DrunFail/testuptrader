@@ -4,13 +4,16 @@ import styles from './CustomButton.module.scss';
 
 interface CustomButtonProps {
     children: ReactNode,
-    onClick?: () => void
+    onClick?: () => void,
 }
 
 
-export default function CustomButton({ children,onClick }: CustomButtonProps) {
+export default function CustomButton({ children,onClick}: CustomButtonProps) {
     return (
-        <a onClick={onClick} className={styles.button}>
+        <a
+            onClick={onClick}
+            className={styles.button}
+        >
             <span></span>
             <span></span>
             <span></span>

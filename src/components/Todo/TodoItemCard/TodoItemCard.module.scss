@@ -1,3 +1,5 @@
+@import '../../../styles/_mixin.scss';
+
 .container {
     display: grid;
     grid-auto-flow: column;
@@ -17,9 +19,6 @@
     & a {
         color: white;
     }
-
-    
-
 }
 .nestedTodo {
     justify-self: flex-end;
@@ -28,5 +27,13 @@
     grid-row-gap: 1rem;
     width: 90%;
 }
-
+@include s{
+    .container{
+        width: 100vw;
+    }
+    .nestedTodo{
+        margin-inline-start: 0;
+        width: 100%;
+    }
+}
 

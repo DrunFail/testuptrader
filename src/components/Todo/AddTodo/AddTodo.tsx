@@ -1,14 +1,12 @@
-import { FormEvent, useRef } from 'react';
+import { FormEvent } from 'react';
 import { Todo } from '../../../interfaces/interfaces';
 import CustomButton from '../../../ui/buttons/CustomButton/CustomButton';
-import Modal from '../../Modal/Modal';
-import Uploader from '../../Uploader/Uploader';
 import styles from './AddTodo.module.scss';
 
 
 interface AddTodoProps {
     addNewTodo: (newTodo: Todo, parentId?: number) => void,
-    parentId: number
+    parentId?: number
 }
 
 export default function AddTodo({addNewTodo, parentId }: AddTodoProps) {
@@ -27,7 +25,7 @@ export default function AddTodo({addNewTodo, parentId }: AddTodoProps) {
         addNewTodo(comment, parentId)
     }
 
-    const todoFormDataRef = useRef(null)
+    
 
 
     return (
@@ -35,7 +33,6 @@ export default function AddTodo({addNewTodo, parentId }: AddTodoProps) {
             <h1>add todo form</h1>
             <form
                 onSubmit={handleSubmit}
-                ref={todoFormDataRef}
                 className={styles.form}>
 
                 <label htmlFor='title'>enter task name</label>
@@ -50,7 +47,6 @@ export default function AddTodo({addNewTodo, parentId }: AddTodoProps) {
                     <option>medium</option>
                     <option>normal</option>
                 </select>
-                <Modal children=<Uploader /> textButton='add files' />
                 <button type='submit'>dddddd</button>
 
                 <CustomButton children='create' />
