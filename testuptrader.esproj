@@ -17,6 +17,7 @@
     <Folder Include="src\components\Todo\EditTodo\" />
     <Folder Include="src\components\Header\" />
     <Folder Include="src\components\Modal\" />
+    <Folder Include="src\components\Uploader\" />
     <Folder Include="src\styles\" />
     <Folder Include="src\ui\buttons\CustomButton\" />
   </ItemGroup>

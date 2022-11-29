@@ -1,6 +1,8 @@
 import { FormEvent, useRef } from 'react';
 import { Todo } from '../../../interfaces/interfaces';
 import CustomButton from '../../../ui/buttons/CustomButton/CustomButton';
+import Modal from '../../Modal/Modal';
+import Uploader from '../../Uploader/Uploader';
 import styles from './AddTodo.module.scss';
 
 
@@ -48,7 +50,7 @@ export default function AddTodo({addNewTodo, parentId }: AddTodoProps) {
                     <option>medium</option>
                     <option>normal</option>
                 </select>
-                <button>add files</button>
+                <Modal children=<Uploader /> textButton='add files' />
                 <button type='submit'>dddddd</button>
 
                 <CustomButton children='create' />

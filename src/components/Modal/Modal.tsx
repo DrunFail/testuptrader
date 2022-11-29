@@ -22,7 +22,13 @@ export default function Modal({ children, textButton }: ModalProps) {
                 <div className={styles.container}>
                    
                 <div className={styles.modalContent}>
-                        <button onClick={() => setIsVisibleModal(!isVisibleModal)}>close</button>
+                        <div
+                            className={styles.closeButton}
+                            onClick={() => setIsVisibleModal(false) }
+                        >
+                            <span className={styles.top }></span>
+                            <span className={styles.bot }></span>
+                        </div>
                             {children}
                        
 

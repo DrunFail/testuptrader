@@ -5,7 +5,7 @@ interface DragCardProps {
     elem: string,
     isDragging: boolean,
     handleDragging: (dragging: boolean) => void,
-    changeStatus: (id: number, newStatus: 'Queue' | 'Development' | 'Done') => void
+    changeStatus: (id: number, newStatus: 'Queue' | 'Development' | 'Done',parentId:number) => void
 }
 
 
