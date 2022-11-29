@@ -4,11 +4,12 @@ import styles from './DragCard.module.scss';
 interface DragCardProps {
     elem: string,
     isDragging: boolean,
-    handleDragging: (dragging: boolean) => void
+    handleDragging: (dragging: boolean) => void,
+    changeStatus: (id: number, newStatus: 'Queue' | 'Development' | 'Done') => void
 }
 
 
-export default function DragCard({ elem, isDragging, handleDragging }: DragCardProps) {
+export default function DragCard({ elem, isDragging, handleDragging,changeStatus }: DragCardProps) {
     const [dragEnter, setDragEnter] = useState(false)
 
     const getClassName = (isDragging: boolean, dragEnter: boolean) => {
@@ -23,7 +24,10 @@ export default function DragCard({ elem, isDragging, handleDragging }: DragCardP
     }
     const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
         e.preventDefault()
-        const id = e.dataTransfer.getData('text')
+        const getId = e.dataTransfer.getData('text')
+        const x = JSON.parse(getId)
+        const {id, parentId } = x
+        changeStatus(id,elem, parentId)
         handleDragging(false)
     }
     const handleDragEnter = (e: React.DragEvent<HTMLDivElement>) => {

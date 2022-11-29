@@ -1,32 +1,37 @@
+import { useState } from "react";
+import { Todo } from "../../../interfaces/interfaces";
+import CommentList from "../../Comments/CommentsList";
 import Modal from "../../Modal/Modal";
 import AddTodo from "../AddTodo/AddTodo";
-import { Todo } from "../../../interfaces/interfaces";
-import styles from './TodoItemCard.module.scss';
 import EditTodo from "../EditTodo/EditTodo";
-import { useState } from "react";
-import CommentList from "../../Comments/CommentsList";
-import CustomButton from "../../../ui/buttons/CustomButton/CustomButton";
-import AddComment from "../../Comments/AddComment/AddComment";
+import styles from './TodoItemCard.module.scss';
 
 interface TodoItemCardProps {
     item: Todo,
-    handleDragging: (dragging: boolean) => void
+    handleDragging: (dragging: boolean) => void,
+    updateTodo: (id: number, newTododo: any) => void,
+    deleteTodo: (id: number, parentId?: number) => void,
+    addNewTodo: (newTodo: Todo, parentId?: number | null | undefined) => void
+   
 }
 
 
-export default function TodoItemCard({ item, handleDragging }: TodoItemCardProps) {
+export default function TodoItemCard({ item, handleDragging, updateTodo, deleteTodo , addNewTodo}: TodoItemCardProps) {
     const [openTodoCard, setOpenTodoCard] = useState(false)
     
+    const transferId = JSON.stringify({
+        id: item.id,
+        parentId: item.parentId
 
+    })
 
     const handleDragStart = (e: React.DragEvent<HTMLDivElement>) => {
-        e.dataTransfer.setData('text', `${item.id}`)
+        e.dataTransfer.setData(`text` , transferId)
         handleDragging(true)
     }
 
 
     const handleDragEnd = () => handleDragging(false)
-
 
     return (
         <>
@@ -42,23 +47,27 @@ export default function TodoItemCard({ item, handleDragging }: TodoItemCardProps
                 <p><span>Priority</span> {item.priority}</p>
                 <p><span>Status</span> {item.currentStatus}</p>
                 <p><span>Name</span>  {item.title}</p>
-                <p><span>Date created</span> {item.dateCreate}</p>
+                <p><span>Date created</span> {item.dateCreated.toDateString()}</p>
                 <p><span>Time in work </span>{item.timeWork }</p>
                 <p><span>Date completed</span> {item.dateEnd}</p>
-                <p><span>files</span>  {item.files }</p>
-            {/*    <Modal textButton='редактировать' children={<EditTodo item={item} />} />*/}
-            {/*    <Modal textButton='добавить подзадачу' children={<AddTodo />} />*/}
+                <p><span>files</span>  {item.files}</p>
+                <Modal children=<EditTodo updateTodo={updateTodo}  item={item }/> textButton='edit' />
+                <button onClick={() => deleteTodo(item.id, item.parentId) }>delete</button>
+
             </div>
             {openTodoCard &&
                 <>
                 <div className={styles.nestedTodo}>
                     <h5>mini Todo</h5>
-                    <Modal textButton='add minitask' children={<AddTodo /> }/>
+                    <Modal textButton='add minitask' children={<AddTodo addNewTodo={addNewTodo} parentId={item.id } /> }/>
                         {item.nestedTodo.map(item =>
                             <TodoItemCard
                                 key={item.id}
                                 handleDragging={handleDragging}
-                                item={item} />)}
+                                item={item}
+                                addNewTodo={addNewTodo}
+                                deleteTodo={deleteTodo}
+                                updateTodo={updateTodo }                            />)}
                     </div>
                       <CommentList /> 
                     
