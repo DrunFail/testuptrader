@@ -97,7 +97,7 @@ export default function CommentList({ up, id, commentsList }: CommentListProps) 
                 children={<AddComment onAdd={onAdd} />} />
 
             <section className={styles.commentList}>
-                {enhancedComments.map((comment, key) => {
+                {enhancedComments.map((comment) => {
                     return (
                         <CommentCard
                             key={comment.id}

@@ -1,3 +1,5 @@
+import { Moment } from "moment"
+
 export interface Comment {
     id: string,
     commentText: string,
@@ -7,13 +9,13 @@ export interface Comment {
     
 }
 
-export interface TodoItem {
+export interface NestedTodo {
     id: number,
     title: string,
     description: string,
-    dateCreated: Date,
+    dateCreated: Date | Moment,
     timeWork: null,
-    dateEnd: null,
+    dateEnd: Date | null | Moment,
     parentId: number | null,
     priority: 'Medium' | 'High' | 'Normal',
     files: string | null,
@@ -23,18 +25,8 @@ export interface TodoItem {
 
 
 
-export interface Todo {
-    id: number,
-    title: string,
-    description: string,
-    dateCreated: Date,
-    timeWork: null,
-    dateEnd: null,
-    parentId: number | null,
-    priority: 'Medium' | 'High' | 'Normal',
-    files: string | null,
-    currentStatus: 'Queue' | 'Development' | 'Done',
-    nestedTodo: TodoItem[],
+export interface Todo extends NestedTodo {
+    nestedTodo: NestedTodo[],
     comments: Comment[]
 
 }

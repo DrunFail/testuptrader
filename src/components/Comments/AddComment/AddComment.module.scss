@@ -28,13 +28,19 @@
         & input, textarea {
             border-radius: 0.5rem;
         }
-        & textarea{
+
+        & textarea {
             resize: none;
         }
 
         & a {
             margin: 0 auto;
-            
         }
+    }
+
+    .success {
+        height: 10rem;
+        width: 20rem;
+        font-size: 1.4rem;
     }
 }

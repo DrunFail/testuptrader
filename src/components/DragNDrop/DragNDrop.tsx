@@ -1,4 +1,3 @@
-import { BooleanLiteral } from "typescript";
 import DragCard from "./DragCard/DragCard";
 import styles from './DragNDrop.module.scss';
 

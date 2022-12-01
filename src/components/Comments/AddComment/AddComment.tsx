@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import CustomButton from '../../../ui/buttons/CustomButton/CustomButton';
 import styles from './AddComment.module.scss';
 
@@ -8,24 +8,32 @@ interface AddCommentProps {
 
 
 export default function AddComment({onAdd }: AddCommentProps) {
-    const rootCommentRef = useRef(null)
+    const [commentAdd, setCommentAdd] = useState(false)
+
+    const rootCommentRef = useRef<HTMLTextAreaElement>(null)
     const onAction = () => {
         if (rootCommentRef.current) {
             onAdd(rootCommentRef.current.value)
         }
+        setCommentAdd(true)
     }
 
 
     return (
         <section className={styles.container}>
-            <form
-                className={styles.form }
+            {commentAdd || <form
+                className={styles.form}
                 onSubmit={(e) => e.preventDefault()}>
                 <h1>add Comment</h1>
                 <label>enter comment</label>
-                <textarea ref={rootCommentRef }/>
-                <CustomButton children='submit' onClick={onAction } />
-            </form>
+                <textarea required ref={rootCommentRef} />
+                <CustomButton children='submit' onClick={onAction} />
+            </form>}
+
+            {commentAdd &&  <div className={styles.success}>
+                A new comment has been successfully added!
+            </div>}
+
         </section>
     );
 }

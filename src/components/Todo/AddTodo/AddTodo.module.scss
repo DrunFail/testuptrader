@@ -17,16 +17,25 @@
         grid-row-gap: 1rem;
         min-height: 25rem;
         width: 20rem;
-        & label{
+
+        & label {
             text-transform: capitalize;
             align-self: flex-end;
             justify-self: flex-start;
         }
-        & input, textarea{
+
+        & input, textarea {
             border-radius: 0.5rem;
         }
-        & a{
+
+        & a {
             margin: 0 auto;
         }
+    }
+
+    .success {
+        height: 10rem;
+        width: 20rem;
+        font-size: 1.4rem;
     }
 }

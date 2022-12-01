@@ -1,0 +1,17 @@
+.alert {
+    height: 10rem;
+    width: 30rem;
+    font-size: 1.4rem;
+    justify-items: center;
+    background-color: lightblue;
+    border-radius: 1rem;
+    padding: 1rem;
+    text-align: center;
+    display: grid;
+    grid-template-rows: 3fr 1fr;
+    .buttons{
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+}

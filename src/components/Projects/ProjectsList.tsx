@@ -42,8 +42,7 @@ export default function ProjectsList() {
                         to={`${elem.id}`} >
                         {elem.title}
                     </Link>)
-                }
-           
+            }
         </section>
     );
 }
