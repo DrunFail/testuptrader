@@ -1,6 +1,6 @@
 interface SearchProps {
     dataSearch: string,
-    handleSearch: () => void
+    handleSearch: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
 

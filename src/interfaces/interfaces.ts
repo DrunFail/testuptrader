@@ -5,19 +5,23 @@ export interface Comment {
     commentText: string,
     parentNodeId: string | null,
     isRootNode: boolean,
-    childComments: Comment[]
+    childComments: Comment
     
+}
+
+export interface Priority {
+    priority: 'Medium' | 'High' | 'Normal'
 }
 
 export interface NestedTodo {
     id: number,
     title: string,
     description: string,
-    dateCreated: Date | Moment,
+    dateCreated: Date | Moment | string,
     timeWork: null,
-    dateEnd: Date | null | Moment,
+    dateEnd: Date | null | Moment | number,
     parentId: number | null,
-    priority: 'Medium' | 'High' | 'Normal',
+    priority: any,
     files: string | null,
     currentStatus: 'Queue' | 'Development' | 'Done'
 }
@@ -27,7 +31,7 @@ export interface NestedTodo {
 
 export interface Todo extends NestedTodo {
     nestedTodo: NestedTodo[],
-    comments: Comment[]
+    comments: any
 
 }
 

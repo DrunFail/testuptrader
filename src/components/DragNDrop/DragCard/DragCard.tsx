@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import styles from './DragCard.module.scss';
+import { Priority } from '../../../interfaces/interfaces';
 
 interface DragCardProps {
-    elem: string,
+    elem: Priority,
     isDragging: boolean,
     handleDragging: (dragging: boolean) => void,
-    changeStatus: (id: number, newStatus: 'Queue' | 'Development' | 'Done',parentId:number) => void
+    changeStatus: (id: number, newStatus: Priority, parentId:number) => void
 }
 
 
@@ -51,7 +52,7 @@ export default function DragCard({ elem, isDragging, handleDragging,changeStatus
                     onDragEnter={handleDragEnter}
                     onDragLeave={handleDragLeave}
                 >
-                    {elem}
+                    {`${elem}`}
                 </div>
             }
         </>

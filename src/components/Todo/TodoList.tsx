@@ -1,7 +1,7 @@
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Comment, NestedTodo, Projects, Todo} from "../../interfaces/interfaces";
+import { Comment, NestedTodo, Priority, Projects, Todo} from "../../interfaces/interfaces";
 import DragNDrop from "../DragNDrop/DragNDrop";
 import Modal from "../Modal/Modal";
 import Search from "../Search/Search";
@@ -17,10 +17,10 @@ export default function TodoList() {
     let filteredTodo: Todo[] | NestedTodo[]  = []
 
 
-    const searchItem = (arr: Todo[] | NestedTodo[]) => {
+    const searchItem = (arr: any) => {
         if (dataSearch) {
             if (+dataSearch) {
-                arr.map(elem => {
+                arr.map((elem: Todo) => {
                     if (elem.id == +dataSearch) {
                         filteredTodo.push(elem)
                     }
@@ -30,7 +30,7 @@ export default function TodoList() {
                 })
             }
             else {
-                arr.map(elem => {
+                arr.map((elem: Todo) => {
                     if (elem.title.toLowerCase().includes(dataSearch.toLowerCase())) {
                         filteredTodo.push(elem)
                     }
@@ -79,7 +79,7 @@ export default function TodoList() {
     }
 
 
-    const up = (id: number, newComment: Comment[]) => {
+    const up = (id: number, newComment:any) => {
         setDataTodoList(dataTodoList.map(todo => todo.id === id ? { ...todo, comments: newComment } : todo))
     }
 
@@ -142,11 +142,9 @@ export default function TodoList() {
         }
     }
 
-    const changeStatus = (id: number, newStatus: 'Queue' | 'Development' | 'Done', parentId?: number) => {
+    const changeStatus = (id: number, newStatus: any, parentId?: number) => {
         const date = moment();
         if (parentId && newStatus == 'Done') {
-            console.log('here')
-            console.log(newStatus)
             setDataTodoList(dataTodoList.map(todo => todo.id === parentId ? {
                 ...todo, nestedTodo: [...todo.nestedTodo.map(nestedTodo => nestedTodo.id === id ? {
                     ...nestedTodo,   currentStatus: newStatus, dateEnd: date 

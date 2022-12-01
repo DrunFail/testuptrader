@@ -6,7 +6,7 @@ import styles from './CommentCard.module.scss';
 
 
 interface CommentCardProps {
-    comment: Comment,
+    comment:any,
     addComment: (parentNodeId: string | null, commentValue: string) => void
 }
 
@@ -42,7 +42,7 @@ export default function CommentCard({ comment, addComment }: CommentCardProps) {
             </div>
             {comment.childComments.length > 0 && <div className={styles.nestedComment} style={{ marginLeft: '10px' }}>
                 {show &&
-                    childComments.map((childCommentEl, key) => {
+                    childComments.map((childCommentEl:string[], key: number) => {
                         return (
                             <CommentCard
                                 key={key}

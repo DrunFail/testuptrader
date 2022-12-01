@@ -7,30 +7,30 @@ import CommentCard from "./CommentCard/CommentCard";
 import styles from './CommentList.module.scss';
 
 
-const getNewComment = (commentValue: string, isRootNode = false, parentNodeId: string | null): Comment => {
+const getNewComment = (commentValue: string, isRootNode = false, parentNodeId: string | null) => {
     return {
         id: uuidv4(),
         commentText: commentValue,
         parentNodeId,
         isRootNode,
-        childComments: [],
+        childComments:[],
     };
 };
 
 
 interface CommentListProps {
-    up: (id: number, newComment: Comment[]) => void,
+    up: (id: number, newComment: any) => void,
     id: number,
     commentsList: Comment[]
 }
 
-
-
+interface A {
+    [key: string]: any 
+}
 
 export default function CommentList({ up, id, commentsList }: CommentListProps) {
-    const [comments, setComments] = useState<Comment[]>([]);
-    const [rootComment, setRootComment] = useState("");
-
+    const [comments, setComments] = useState<A>([]);
+    const [rootComment, setRootComment] = useState('')
     const initialState = commentsList ? commentsList : []
     
 
@@ -48,13 +48,13 @@ export default function CommentList({ up, id, commentsList }: CommentListProps) 
 
 
     const addComment = (parentNodeId: string | null, commentValue: string) => {
-        let newComment: Comment;
+        let newComment: any;
         if (parentNodeId) {
             newComment = getNewComment(commentValue, false, parentNodeId);
             setComments((comments) => ({
                 ...comments,
                 [parentNodeId]: {
-                    ...comments[parentNodeId],
+                    ...[parentNodeId],
                     childComments: [...comments[parentNodeId].childComments, newComment?.id],
                 },
             }));
@@ -65,12 +65,12 @@ export default function CommentList({ up, id, commentsList }: CommentListProps) 
     };
 
 
-    const commentMapper = (comment: Comment): Comment => {
+    const commentMapper = (comment: A) => {
         return {
             ...comment,
             childComments: comment.childComments
-                .map((comm) => comments[comm])
-                .map((comment) => commentMapper(comment)),
+                .map((comm: string | number) => comments[comm])
+                .map((comment: A) => commentMapper(comment)),
         };
     };
 
@@ -89,7 +89,7 @@ export default function CommentList({ up, id, commentsList }: CommentListProps) 
 
 
     return (
-        <section className={styles.container }>
+        <section className={styles.container}>
             <h1 >Comments List</h1>
             {!Object.keys(comments).length && <p> there no comment</p> }
             <Modal
@@ -97,10 +97,10 @@ export default function CommentList({ up, id, commentsList }: CommentListProps) 
                 children={<AddComment onAdd={onAdd} />} />
 
             <section className={styles.commentList}>
-                {enhancedComments.map((comment) => {
+                {enhancedComments.map((comment, id) => {
                     return (
                         <CommentCard
-                            key={comment.id}
+                            key={id}
                             comment={comment}
                             addComment={addComment} />
                     );

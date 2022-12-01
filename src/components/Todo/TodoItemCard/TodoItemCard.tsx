@@ -1,5 +1,5 @@
 import moment from "moment";
-import { useState } from "react";
+import { Key, useState } from "react";
 import { Comment, NestedTodo, Todo } from "../../../interfaces/interfaces";
 import CommentList from "../../Comments/CommentsList";
 import Modal from "../../Modal/Modal";
@@ -9,21 +9,20 @@ import EditTodo from "../EditTodo/EditTodo";
 import styles from './TodoItemCard.module.scss';
 
 interface TodoItemCardProps {
-    item: Todo | NestedTodo,
+    item: any,
     handleDragging: (dragging: boolean) => void,
     updateTodo: (id: number, newTododo: any) => void,
     deleteTodo: (id: number, parentId?: number) => void,
-    addNewTodo: (newTodo: Todo, parentId?: number | null | undefined) => void,
+    addNewTodo: (newTodo: Todo, parentId?: number | undefined) => void,
     up: (id: number, newComment: Comment[]) => void,
-    changeStatusState: boolean
+    
    
 }
 
 
-export default function TodoItemCard({ item, handleDragging, updateTodo, deleteTodo, addNewTodo, up, changeStatusState }: TodoItemCardProps) {
+export default function TodoItemCard({ item, handleDragging, updateTodo, deleteTodo, addNewTodo, up}: TodoItemCardProps) {
     const [openTodoCard, setOpenTodoCard] = useState(false)
     const width = document.documentElement.clientWidth;
-    console.log(width)
 
     const transferId = JSON.stringify({
         id: item.id,
@@ -96,14 +95,16 @@ export default function TodoItemCard({ item, handleDragging, updateTodo, deleteT
                 <div className={styles.nestedTodo}>
                     <h5>mini Todo</h5>
                     <Modal textButton='add minitask' children={<AddTodo addNewTodo={addNewTodo} parentId={item.id } /> }/>
-                        {item.nestedTodo.map(item =>
+                        {item.nestedTodo.map((item: { id: Key | null | undefined; }) =>
                             <TodoItemCard
                                 key={item.id}
                                 handleDragging={handleDragging}
                                 item={item}
                                 addNewTodo={addNewTodo}
                                 deleteTodo={deleteTodo}
-                                updateTodo={updateTodo }                            />)}
+                                updateTodo={updateTodo}
+                                up={up }
+                            />)}
                     </div>
                 <CommentList id={item.id} up={up} commentsList={item.comments }/> 
                     

@@ -17,10 +17,10 @@ export default function AddTodo({ addNewTodo, parentId }: AddTodoProps) {
 
 
 
-    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    const handleSubmit = (e:any) => {
         e.preventDefault();
         const form = e.target;
-        const comment: Todo = {
+        const comment: any = {
             title: form.title.value,
             description: form.body.value,
             dateCreated: moment(),
@@ -28,7 +28,7 @@ export default function AddTodo({ addNewTodo, parentId }: AddTodoProps) {
             priority: form.priority.value,
             currentStatus: 'Queue',
             dateEnd: null,
-            parentId
+            parentId: null
         }
         addNewTodo(comment, parentId)
         setFormCompleted(false)
