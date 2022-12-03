@@ -24,6 +24,9 @@ export default function ProjectsList() {
     }
     
 
+    const clearDataLS = () => {
+        localStorage.clear()
+    }
 
     useEffect(() => {
         setDataProjects(y)
@@ -32,10 +35,9 @@ export default function ProjectsList() {
     return (
         <section className={styles.container}>
             <h1>Project list</h1>
-            <CustomButton onClick={setDataLS} children='set data to LS' />
+            <CustomButton refer='/' onClick={setDataLS} children='set data to LS' />
+            <CustomButton  refer='/' onClick={clearDataLS} children='delete data from LS'/>
             {dataProjects && 
-                
-            
                 dataProjects.map(elem =>
                     <Link
                         key={elem.id}
