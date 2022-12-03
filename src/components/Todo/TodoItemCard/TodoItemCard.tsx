@@ -1,6 +1,6 @@
 import moment from "moment";
 import { Key, useState } from "react";
-import { Comment, NestedTodo, Todo } from "../../../interfaces/interfaces";
+import { Todo, WrapperComment } from "../../../interfaces/interfaces";
 import CommentList from "../../Comments/CommentsList";
 import Modal from "../../Modal/Modal";
 import AddTodo from "../AddTodo/AddTodo";
@@ -14,13 +14,13 @@ interface TodoItemCardProps {
     updateTodo: (id: number, newTododo: any) => void,
     deleteTodo: (id: number, parentId?: number) => void,
     addNewTodo: (newTodo: Todo, parentId?: number | undefined) => void,
-    up: (id: number, newComment: Comment[]) => void,
+    updateTodoList: (id: number, newComment: WrapperComment) => void,
     
    
 }
 
 
-export default function TodoItemCard({ item, handleDragging, updateTodo, deleteTodo, addNewTodo, up}: TodoItemCardProps) {
+export default function TodoItemCard({ item, handleDragging, updateTodo, deleteTodo, addNewTodo, updateTodoList}: TodoItemCardProps) {
     const [openTodoCard, setOpenTodoCard] = useState(false)
     const width = document.documentElement.clientWidth;
 
@@ -103,10 +103,10 @@ export default function TodoItemCard({ item, handleDragging, updateTodo, deleteT
                                 addNewTodo={addNewTodo}
                                 deleteTodo={deleteTodo}
                                 updateTodo={updateTodo}
-                                up={up }
+                                updateTodoList={updateTodoList }
                             />)}
                     </div>
-                <CommentList id={item.id} up={up} commentsList={item.comments }/> 
+                <CommentList id={item.id} updateTodoList={updateTodoList} commentsList={item.comments }/> 
                     
                 </>
 

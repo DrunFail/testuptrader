@@ -1,100 +1,94 @@
 import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { Comment } from "../../interfaces/interfaces";
+import { Comment, MapperComment, WrapperComment } from "../../interfaces/interfaces";
 import Modal from "../Modal/Modal";
 import AddComment from "./AddComment/AddComment";
 import CommentCard from "./CommentCard/CommentCard";
 import styles from './CommentList.module.scss';
 
 
-const getNewComment = (commentValue: string, isRootNode = false, parentNodeId: string | null) => {
+const getNewComment = (commentValue: string, isRootNode = false, parentNodeId: string | null): Comment => {
     return {
         id: uuidv4(),
         commentText: commentValue,
         parentNodeId,
         isRootNode,
-        childComments:[],
+        childComments: [],
     };
 };
 
 
 interface CommentListProps {
-    up: (id: number, newComment: any) => void,
+    updateTodoList: (id: number, newComment: WrapperComment) => void,
     id: number,
-    commentsList: Comment[]
+    commentsList: WrapperComment
 }
 
-interface A {
-    [key: string]: any 
-}
 
-export default function CommentList({ up, id, commentsList }: CommentListProps) {
-    const [comments, setComments] = useState<A>([]);
-    const [rootComment, setRootComment] = useState('')
-    const initialState = commentsList ? commentsList : []
-    
+
+export default function CommentList({ updateTodoList, id, commentsList }: CommentListProps) {
+    const [comments, setComments] = useState<WrapperComment>({});
+    const initialState = commentsList ? commentsList : {}
+
 
     useEffect(() => {
         setComments(initialState)
-    },[])
-
-
+    }, [])
 
 
     useEffect(() => {
-        up(id, comments)
+        updateTodoList(id, comments)
     }, [comments])
 
 
-
     const addComment = (parentNodeId: string | null, commentValue: string) => {
-        let newComment: any;
+        let newComment: Comment;
         if (parentNodeId) {
             newComment = getNewComment(commentValue, false, parentNodeId);
             setComments((comments) => ({
                 ...comments,
                 [parentNodeId]: {
-                    ...[parentNodeId],
-                    childComments: [...comments[parentNodeId].childComments, newComment?.id],
+                    ...comments[parentNodeId],
+                    childComments: [...comments[parentNodeId].childComments, newComment.id],
                 },
             }));
         } else {
             newComment = getNewComment(commentValue, true, null);
         }
-        setComments((comments) => ({ ...comments, [newComment?.id]: newComment }));
+        setComments((comments) => ({ ...comments, [newComment.id]: newComment }));
     };
 
 
-    const commentMapper = (comment: A) => {
+    const commentMapper = (comment: Comment): MapperComment => {
         return {
             ...comment,
             childComments: comment.childComments
-                .map((comm: string | number) => comments[comm])
-                .map((comment: A) => commentMapper(comment)),
+                .map((comm) => comments[comm])                // rewrite field 'childComments'  string => Comment
+                .map((comment) => commentMapper(comment)),    // repeat for each comment in 'childComments'
         };
     };
 
 
-    const enhancedComments = Object.values(comments)
+    const enhancedComments = Object.values(comments) //get all comments from state
         .filter((comment) => {
-            return !comment.parentNodeId;
+            return !comment.parentNodeId;  //filter and get array all parent comments
         })
         .map(commentMapper);
 
 
-    const onAdd = (rootComment: string) => {
+    const addParentComment = (rootComment: string) => {
         addComment(null, rootComment);
-        setRootComment("");
     };
 
 
     return (
         <section className={styles.container}>
             <h1 >Comments List</h1>
-            {!Object.keys(comments).length && <p> there no comment</p> }
-            <Modal
-                textButton='add'
-                children={<AddComment onAdd={onAdd} />} />
+            {!Object.keys(comments).length && <p> there no comment</p>}
+
+            <Modal textButton='add'>
+                <AddComment addComment={addParentComment} />
+            </Modal>
 
             <section className={styles.commentList}>
                 {enhancedComments.map((comment, id) => {

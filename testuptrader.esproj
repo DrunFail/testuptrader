@@ -12,6 +12,7 @@
     <BuildOutputFolder>$(MSBuildProjectDirectory)\build</BuildOutputFolder>
   </PropertyGroup>
   <ItemGroup>
+    <Folder Include="src\components\Comments\NestedComment\" />
     <Folder Include="src\components\DragNDrop\DragCard\" />
     <Folder Include="src\components\Layout\" />
     <Folder Include="src\components\Todo\EditTodo\" />
@@ -21,5 +22,6 @@
     <Folder Include="src\components\Search\" />
     <Folder Include="src\ui\buttons\CustomButton\" />
     <Folder Include="src\ui\blackButton\" />
+    <Folder Include="src\ui\Arrow\" />
   </ItemGroup>
 </Project>

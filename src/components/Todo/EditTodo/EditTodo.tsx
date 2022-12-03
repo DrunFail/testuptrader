@@ -18,9 +18,6 @@ export default function EditTodo({ item, updateTodo }: EditTodoProps) {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-
-
-
         updateTodo(item.id, updatedItem, item.parentId)
     }
 

@@ -1,22 +1,28 @@
 import { useState } from "react";
-import { Comment } from "../../../interfaces/interfaces";
+import { MapperComment } from "../../../interfaces/interfaces";
+import Arrow from "../../../ui/Arrow/Arrow";
 import Modal from "../../Modal/Modal";
 import AddComment from "../AddComment/AddComment";
+import NestedComment from "../NestedComment/NestedComment";
 import styles from './CommentCard.module.scss';
 
 
 interface CommentCardProps {
-    comment:any,
+    comment: MapperComment,
     addComment: (parentNodeId: string | null, commentValue: string) => void
 }
 
 
 export default function CommentCard({ comment, addComment }: CommentCardProps) {
+    const [showNestedComment, setShowNestedComment] = useState(true);
+
     const { commentText, childComments, id } = comment;
-    const [show, setShow] = useState(true);
 
+    const handleShowNestedComment = () => {
+        setShowNestedComment(showNestedComment => !showNestedComment)
+    }
 
-    const onAddNested = (childComment: string) => {
+    const addNestedComment = (childComment: string) => {
         addComment(id, childComment);
     };
 
@@ -26,34 +32,25 @@ export default function CommentCard({ comment, addComment }: CommentCardProps) {
             <div className={styles.container} >
                 <p className={styles.commentTitle}>{commentText} </p>
 
-                <Modal textButton='add reply' children={<AddComment onAdd={onAddNested }/> }/>
+                <Modal textButton='add reply'>
+                    <AddComment addComment={addNestedComment} />
+                </Modal>
 
-                {childComments.length > 0 && 
-                    <div
-                        className={styles[show ? 'openArrow' : 'arrow']}
-                        onClick={() => setShow((show) => !show)}
-                    >
-                        <span className={styles.arrowLeft }></span>
-                        <span className={styles.arrowRight }></span>
-                    </div>
+                {childComments.length > 0 &&
+                    <Arrow
+                        stateShow={showNestedComment}
+                        handler={handleShowNestedComment}
+                    />
                 }
-
-
             </div>
-            {comment.childComments.length > 0 && <div className={styles.nestedComment} style={{ marginLeft: '10px' }}>
-                {show &&
-                    childComments.map((childCommentEl:string[], key: number) => {
-                        return (
-                            <CommentCard
-                                key={key}
-                                comment={childCommentEl}
-                                addComment={addComment}
-                            />
-                        );
-                    })
-                }
-            </div>}
 
+            {comment.childComments.length > 0 &&
+                <NestedComment
+                    stateShow={showNestedComment}
+                    childComments={childComments}
+                    addComment={addComment}
+                />
+            }
         </>
     );
 };
