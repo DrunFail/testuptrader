@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import styles from './DragCard.module.scss';
-import { Priority } from '../../../interfaces/interfaces';
+import { CurrentStatus } from '../../../interfaces/interfaces';
 
 interface DragCardProps {
-    elem: Priority,
+    elem: CurrentStatus,
     isDragging: boolean,
     handleDragging: (dragging: boolean) => void,
-    changeStatus: (id: number, newStatus: Priority, parentId:number) => void
+    changeStatus: (id: number, newStatus: CurrentStatus, parentId:number) => void
 }
 
 

@@ -19,14 +19,14 @@ const getNewComment = (commentValue: string, isRootNode = false, parentNodeId: s
 
 
 interface CommentListProps {
-    up: (id: number, newComment: WrapperComment) => void,
+    updateTodoList: (id: number, newComment: WrapperComment) => void,
     id: number,
     commentsList: WrapperComment
 }
 
 
 
-export default function CommentList({ up, id, commentsList }: CommentListProps) {
+export default function CommentList({ updateTodoList, id, commentsList }: CommentListProps) {
     const [comments, setComments] = useState<WrapperComment>({});
     const initialState = commentsList ? commentsList : {}
 
@@ -37,7 +37,7 @@ export default function CommentList({ up, id, commentsList }: CommentListProps) 
 
 
     useEffect(() => {
-        up(id, comments)
+        updateTodoList(id, comments)
     }, [comments])
 
 

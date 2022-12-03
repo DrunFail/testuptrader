@@ -1,6 +1,6 @@
 import moment from 'moment';
-import { FormEvent, useState } from 'react';
-import { Todo } from '../../../interfaces/interfaces';
+import { useState } from 'react';
+import { CurrentStatus, Todo } from '../../../interfaces/interfaces';
 import BlackButton from '../../../ui/blackButton/BlackButton';
 import styles from './AddTodo.module.scss';
 
@@ -13,56 +13,54 @@ interface AddTodoProps {
 export default function AddTodo({ addNewTodo, parentId }: AddTodoProps) {
     const [formCompleted, setFormCompleted] = useState(true)
 
-    
-
-
-
-    const handleSubmit = (e:any) => {
+    const handleSubmit = (e: any) => {
         e.preventDefault();
         const form = e.target;
-        const comment: any = {
+        const newTodo:any = {
             title: form.title.value,
             description: form.body.value,
             dateCreated: moment(),
-            timeWork: null,
             priority: form.priority.value,
-            currentStatus: 'Queue',
+            currentStatus: CurrentStatus.Queue,
             dateEnd: null,
-            parentId: null
+            parentId: null,
+            files: null,
+            nestedTodo: [],
+            comments: {}
         }
-        addNewTodo(comment, parentId)
+        addNewTodo(newTodo, parentId)
         setFormCompleted(false)
     }
 
     return (
         <section className={styles.container}>
-            {formCompleted &&   
-             <>
-                <h1>add todo form</h1>
-            <form
-                onSubmit={handleSubmit}
-                className={styles.form}>
+            {formCompleted &&
+                <>
+                    <h1>add todo form</h1>
+                    <form
+                        onSubmit={handleSubmit}
+                        className={styles.form}>
 
-                <label htmlFor='title'>enter task name</label>
-                <input id='title' name='title' type='text' />
+                        <label htmlFor='title'>enter task name</label>
+                        <input id='title' name='title' type='text' />
 
 
 
-                <label htmlFor='body'>enter description</label>
-                <textarea id='body' />
-                <select id='priority'>
-                    <option>high</option>
-                    <option>medium</option>
-                    <option>normal</option>
-                </select>
-                <BlackButton
-                    onClick={() => setFormCompleted(true)}
-                    type='submit'
-                    children='create' />
-                </form>
-            </>
+                        <label htmlFor='body'>enter description</label>
+                        <textarea id='body' />
+                        <select id='priority'>
+                            <option>high</option>
+                            <option>medium</option>
+                            <option>normal</option>
+                        </select>
+                        <BlackButton
+                            onClick={() => setFormCompleted(true)}
+                            type='submit'
+                            children='create' />
+                    </form>
+                </>
             }
-            {formCompleted || <div className={styles.success }>
+            {formCompleted || <div className={styles.success}>
                 A new task has been successfully added!
             </div>}
 

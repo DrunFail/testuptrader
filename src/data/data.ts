@@ -1,4 +1,4 @@
-import { Todo, Projects } from "../interfaces/interfaces";
+import { Projects, CurrentStatus, PriorityStatus } from "../interfaces/interfaces";
 
 
 export const PROJECT_DATA: Projects[] = [
@@ -13,11 +13,11 @@ export const PROJECT_DATA: Projects[] = [
                 'dateCreated': '11/29/2022',
                 'timeWork': null,
                 'dateEnd': null ,
-                'priority': "High",
+                'priority': PriorityStatus.High,
                 'files': null,
                 'parentId': null,
-                'currentStatus': 'Development',
-                'comments': [],
+                'currentStatus': CurrentStatus.Development,
+                'comments': {},
             'nestedTodo': [
                     {
                         'id': 3,
@@ -26,10 +26,12 @@ export const PROJECT_DATA: Projects[] = [
                     'dateCreated': '11/29/2022',
                         'timeWork': null,
                         'dateEnd': null,
-                        'priority': 'High',
+                        'priority': PriorityStatus.High,
                         'files': null,
                         'parentId': 2,
-                        'currentStatus': 'Development'
+                    'currentStatus': CurrentStatus.Development,
+                    "nestedTodo": [],
+                    "comments": {}
                         
                     },
                     {
@@ -39,10 +41,12 @@ export const PROJECT_DATA: Projects[] = [
                         'dateCreated': '11/29/2022',
                         'timeWork': null,
                         'dateEnd': null,
-                        'priority': 'High',
+                        'priority': PriorityStatus.Medium,
                         'files': null,
                         'parentId': 2,
-                        'currentStatus': 'Development'
+                        'currentStatus': CurrentStatus.Development,
+                        "nestedTodo": [],
+                        "comments": {}
                         
                     }
 
@@ -56,11 +60,11 @@ export const PROJECT_DATA: Projects[] = [
                 'dateCreated': '11/29/2022',
                 'timeWork': null,
                 'dateEnd': null,
-                'priority': 'High',
+                'priority': PriorityStatus.Normal,
                 'files': null,
                 'parentId': null,
-                'currentStatus': 'Queue',
-            'comments':[],
+                'currentStatus': CurrentStatus.Queue,
+                'comments': {},
             'nestedTodo': []
         }
 
@@ -76,11 +80,11 @@ export const PROJECT_DATA: Projects[] = [
             'dateCreated': '11/29/2022',
             'timeWork': null,
             'dateEnd': null,
-            'priority': 'High',
+            'priority': PriorityStatus.High,
             'files': null,
             'parentId': null,
-            'currentStatus': 'Development',
-            'comments': [],
+            'currentStatus': CurrentStatus.Development,
+            'comments': {},
             'nestedTodo': [
                 {
                     'id': 8,
@@ -89,10 +93,12 @@ export const PROJECT_DATA: Projects[] = [
                     'dateCreated': '11/29/2022',
                     'timeWork': null,
                     'dateEnd': null,
-                    'priority': 'High',
+                    'priority': PriorityStatus.High,
                     'files': null,
                     'parentId': 7,
-                    'currentStatus': 'Development'
+                    'currentStatus': CurrentStatus.Development,
+                    "nestedTodo": [],
+                    "comments": {}
                     
                 },
                 {
@@ -102,10 +108,12 @@ export const PROJECT_DATA: Projects[] = [
                     'dateCreated': '11/29/2022',
                     'timeWork': null,
                     'dateEnd': null,
-                    'priority': 'High',
+                    'priority': PriorityStatus.Medium,
                     'files': null,
                     'parentId': 7,
-                    'currentStatus': 'Development'
+                    'currentStatus': CurrentStatus.Development,
+                    "nestedTodo": [],
+                    "comments": {}
                     
                 }
 
@@ -119,11 +127,11 @@ export const PROJECT_DATA: Projects[] = [
             'dateCreated': '11/29/2022',
             'timeWork': null,
             'dateEnd': null,
-            'priority': 'High',
+            'priority': PriorityStatus.Normal,
             'files': null,
             'parentId': null,
-            'currentStatus': 'Queue',
-            'comments': [],
+            'currentStatus': CurrentStatus.Queue,
+            'comments': {},
             'nestedTodo': []
         }
 
@@ -140,11 +148,11 @@ export const PROJECT_DATA: Projects[] = [
                 'dateCreated': '11/29/2022',
                 'timeWork': null,
                 'dateEnd': null,
-                'priority': 'High',
+                'priority': PriorityStatus.Medium,
                 'files': null,
                 'parentId': null,
-                'currentStatus': 'Development',
-                'comments': [],
+                'currentStatus': CurrentStatus.Development,
+                'comments': {},
                 'nestedTodo': [
                     {
                         'id': 13,
@@ -153,10 +161,12 @@ export const PROJECT_DATA: Projects[] = [
                         'dateCreated': '11/29/2022',
                         'timeWork': null,
                         'dateEnd': null,
-                        'priority': 'High',
+                        'priority': PriorityStatus.High,
                         'files': null,
                         'parentId': 12,
-                        'currentStatus': 'Development'
+                        'currentStatus': CurrentStatus.Development,
+                        "nestedTodo": [],
+                        "comments": {}
                         
                     },
                     {
@@ -166,10 +176,12 @@ export const PROJECT_DATA: Projects[] = [
                         'dateCreated': '11/29/2022',
                         'timeWork': null,
                         'dateEnd': null,
-                        'priority': 'High',
+                        'priority': PriorityStatus.Normal,
                         'files': null,
                         'parentId': 12,
-                        'currentStatus': 'Development'
+                        'currentStatus': CurrentStatus.Development,
+                        "nestedTodo": [],
+                        "comments": {}
                         
                     }
 
@@ -183,11 +195,11 @@ export const PROJECT_DATA: Projects[] = [
                 'dateCreated': '11/29/2022',
                 'timeWork': null,
                 'dateEnd': null,
-                'priority': 'High',
+                'priority': PriorityStatus.High,
                 'files': null,
                 'parentId': null,
-                'currentStatus': 'Queue',
-                'comments': [],
+                'currentStatus': CurrentStatus.Queue,
+                'comments': {},
                 'nestedTodo': []
             }
 
@@ -203,11 +215,11 @@ export const PROJECT_DATA: Projects[] = [
             'dateCreated': '11/29/2022',
             'timeWork': null,
             'dateEnd': null,
-            'priority': 'High',
+            'priority': PriorityStatus.Normal,
             'files': null,
             'parentId': null,
-            'currentStatus': 'Development',
-            'comments': [],
+            'currentStatus': CurrentStatus.Development,
+            'comments': {},
             'nestedTodo': [
                 {
                     'id': 17,
@@ -216,10 +228,12 @@ export const PROJECT_DATA: Projects[] = [
                     'dateCreated': '11/29/2022',
                     'timeWork': null,
                     'dateEnd': null,
-                    'priority': 'High',
+                    'priority': PriorityStatus.High,
                     'files': null,
                     'parentId': 21,
-                    'currentStatus': 'Development'
+                    'currentStatus': CurrentStatus.Development,
+                    "nestedTodo": [],
+                    "comments": {}
                     
                 },
                 {
@@ -229,10 +243,12 @@ export const PROJECT_DATA: Projects[] = [
                     'dateCreated': '11/29/2022',
                     'timeWork': null,
                     'dateEnd': null,
-                    'priority': 'High',
+                    'priority': PriorityStatus.Medium,
                     'files': null,
                     'parentId': 21,
-                    'currentStatus': 'Development'
+                    'currentStatus': CurrentStatus.Development,
+                    "nestedTodo": [],
+                    "comments": {}
                     
                 }
 
@@ -246,11 +262,11 @@ export const PROJECT_DATA: Projects[] = [
             'dateCreated': '11/29/2022',
             'timeWork': null,
             'dateEnd': null,
-            'priority': 'High',
+            'priority': PriorityStatus.Normal,
             'files': null,
             'parentId': null,
-            'currentStatus': 'Queue',
-            'comments':[],
+            'currentStatus': CurrentStatus.Queue,
+            'comments': {},
             'nestedTodo': []
         }
 

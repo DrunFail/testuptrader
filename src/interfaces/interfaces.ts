@@ -1,8 +1,5 @@
 import { Moment } from "moment"
 
-
-
-
 export interface Comment {
     id: string,
     commentText: string,
@@ -24,13 +21,20 @@ export interface WrapperComment {
     [key: string]: Comment
 }
 
-
-
-export interface Priority {
-    priority: 'Medium' | 'High' | 'Normal'
+export enum PriorityStatus{
+    Medium = 'Medium',
+    High = 'High',
+    Normal = 'Normal'
+}
+export enum CurrentStatus {
+    Done = 'Done',
+    Queue = 'Queue',
+    Development = 'Development'
+    
 }
 
-export interface NestedTodo {
+
+export interface Todo {
     id: number,
     title: string,
     description: string,
@@ -38,19 +42,17 @@ export interface NestedTodo {
     timeWork: null,
     dateEnd: Date | null | Moment | number,
     parentId: number | null,
-    priority: any,
+    priority: PriorityStatus,
     files: string | null,
-    currentStatus: 'Queue' | 'Development' | 'Done'
+    currentStatus: CurrentStatus,
+    nestedTodo: Todo[],
+    comments: WrapperComment
 }
 
 
 
 
-export interface Todo extends NestedTodo {
-    nestedTodo: NestedTodo[],
-    comments: any
 
-}
 
 export interface Projects {
     id: number,
