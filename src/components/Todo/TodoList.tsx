@@ -1,7 +1,7 @@
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Comment, NestedTodo, Priority, Projects, Todo} from "../../interfaces/interfaces";
+import { Comment, NestedTodo, Priority, Projects, Todo, WrapperComment} from "../../interfaces/interfaces";
 import DragNDrop from "../DragNDrop/DragNDrop";
 import Modal from "../Modal/Modal";
 import Search from "../Search/Search";
@@ -79,7 +79,7 @@ export default function TodoList() {
     }
 
 
-    const up = (id: number, newComment:any) => {
+    const up = (id: number, newComment:WrapperComment) => {
         setDataTodoList(dataTodoList.map(todo => todo.id === id ? { ...todo, comments: newComment } : todo))
     }
 

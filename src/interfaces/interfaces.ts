@@ -1,13 +1,30 @@
 import { Moment } from "moment"
 
+
+
+
 export interface Comment {
     id: string,
     commentText: string,
     parentNodeId: string | null,
     isRootNode: boolean,
-    childComments: Comment
-    
+    childComments: string[]
 }
+
+ export interface MapperComment {
+    id: string,
+    commentText: string,
+    parentNodeId: string | null,
+    isRootNode: boolean,
+    childComments: MapperComment[]
+}
+
+
+export interface WrapperComment {
+    [key: string]: Comment
+}
+
+
 
 export interface Priority {
     priority: 'Medium' | 'High' | 'Normal'

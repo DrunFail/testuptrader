@@ -1,6 +1,6 @@
 import moment from "moment";
 import { Key, useState } from "react";
-import { Comment, NestedTodo, Todo } from "../../../interfaces/interfaces";
+import { Todo, WrapperComment } from "../../../interfaces/interfaces";
 import CommentList from "../../Comments/CommentsList";
 import Modal from "../../Modal/Modal";
 import AddTodo from "../AddTodo/AddTodo";
@@ -14,7 +14,7 @@ interface TodoItemCardProps {
     updateTodo: (id: number, newTododo: any) => void,
     deleteTodo: (id: number, parentId?: number) => void,
     addNewTodo: (newTodo: Todo, parentId?: number | undefined) => void,
-    up: (id: number, newComment: Comment[]) => void,
+    up: (id: number, newComment: WrapperComment) => void,
     
    
 }
