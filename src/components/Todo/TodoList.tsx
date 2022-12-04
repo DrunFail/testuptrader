@@ -132,7 +132,7 @@ export default function TodoList() {
         }
 
     }
-    const deleteTodo = (id: number, parentId?: number) => {
+    const deleteTodo = (id: number, parentId?: number | null) => {
         if (parentId) {
             setDataTodoList(dataTodoList => dataTodoList.map(elem => elem.id === parentId ?
                 { ...elem, nestedTodo: [...elem.nestedTodo.filter(elem => elem.id !== id)] } : elem
