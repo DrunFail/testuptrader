@@ -1,6 +1,7 @@
 import moment from "moment";
-import { Key, useState } from "react";
+import { useState } from "react";
 import { Todo, WrapperComment } from "../../../interfaces/interfaces";
+import FileIcon from "../../../ui/SVGComponents/FileIcon";
 import CommentList from "../../Comments/CommentsList";
 import Modal from "../../Modal/Modal";
 import AddTodo from "../AddTodo/AddTodo";
@@ -9,10 +10,10 @@ import EditTodo from "../EditTodo/EditTodo";
 import styles from './TodoItemCard.module.scss';
 
 interface TodoItemCardProps {
-    item: any,
+    item: Todo,
     handleDragging: (dragging: boolean) => void,
     updateTodo: (id: number, newTododo: any) => void,
-    deleteTodo: (id: number, parentId?: number) => void,
+    deleteTodo: (id: number, parentId?: number | null) => void,
     addNewTodo: (newTodo: Todo, parentId?: number | undefined) => void,
     updateTodoList: (id: number, newComment: WrapperComment) => void,
     
@@ -21,7 +22,7 @@ interface TodoItemCardProps {
 
 
 export default function TodoItemCard({ item, handleDragging, updateTodo, deleteTodo, addNewTodo, updateTodoList}: TodoItemCardProps) {
-    const [openTodoCard, setOpenTodoCard] = useState(false)
+    const [openTodoCard, setOpenTodoCard] = useState(false);
     const width = document.documentElement.clientWidth;
 
     const transferId = JSON.stringify({
@@ -49,7 +50,7 @@ export default function TodoItemCard({ item, handleDragging, updateTodo, deleteT
     }
     
 
-    
+   
 
     return (
         <>
@@ -83,7 +84,10 @@ export default function TodoItemCard({ item, handleDragging, updateTodo, deleteT
                 <p><span>Date completed</span> {moment(item.dateEnd).calendar()}</p>
                 
                 {width < 900 || <>
-                    <p><span>files</span>  {item.files}</p>
+                    <p   className={styles.icon }><span>files</span>{item.files?.length &&  <FileIcon /> }  </p>
+                    
+                    
+
                  <Modal children=<EditTodo updateTodo={updateTodo}  item={item }/> textButton='edit' />
                     <Modal children={<DeleteTodo handleDelete={handleDelete} />} textButton='delete' />
                 </> 
@@ -95,7 +99,7 @@ export default function TodoItemCard({ item, handleDragging, updateTodo, deleteT
                 <div className={styles.nestedTodo}>
                     <h5>mini Todo</h5>
                     <Modal textButton='add minitask' children={<AddTodo addNewTodo={addNewTodo} parentId={item.id } /> }/>
-                        {item.nestedTodo.map((item: { id: Key | null | undefined; }) =>
+                        {item.nestedTodo.map((item) =>
                             <TodoItemCard
                                 key={item.id}
                                 handleDragging={handleDragging}
