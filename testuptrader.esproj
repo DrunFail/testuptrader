@@ -21,7 +21,6 @@
     <Folder Include="src\components\Todo\DeleteTodo\" />
     <Folder Include="src\components\Search\" />
     <Folder Include="src\components\Uploader\" />
-    <Folder Include="src\components\FileList\" />
     <Folder Include="src\ui\buttons\CustomButton\" />
     <Folder Include="src\ui\blackButton\" />
     <Folder Include="src\ui\Arrow\" />
