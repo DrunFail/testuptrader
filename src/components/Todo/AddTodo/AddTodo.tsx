@@ -2,6 +2,8 @@ import moment from 'moment';
 import { useState } from 'react';
 import { CurrentStatus, Todo } from '../../../interfaces/interfaces';
 import BlackButton from '../../../ui/blackButton/BlackButton';
+import Modal from '../../Modal/Modal';
+import Uploader from '../../Uploader/Uploader';
 import styles from './AddTodo.module.scss';
 
 
@@ -11,7 +13,16 @@ interface AddTodoProps {
 }
 
 export default function AddTodo({ addNewTodo, parentId }: AddTodoProps) {
-    const [formCompleted, setFormCompleted] = useState(true)
+    const [formCompleted, setFormCompleted] = useState(true);
+    const [files, setFiles] = useState<File[]>([]);
+    
+    const updateFileList = (files: FileList) => setFiles(Object.values(files))
+    
+    const deleteImg = (fileName: string) => setFiles(files => files.filter(file => file.name !== fileName))
+
+    const getURlFile = files.map(file => URL.createObjectURL(file))
+
+
 
     const handleSubmit = (e: any) => {
         e.preventDefault();
@@ -24,12 +35,13 @@ export default function AddTodo({ addNewTodo, parentId }: AddTodoProps) {
             currentStatus: CurrentStatus.Queue,
             dateEnd: null,
             parentId: null,
-            files: null,
+            files: getURlFile,
             nestedTodo: [],
             comments: {}
         }
         addNewTodo(newTodo, parentId)
         setFormCompleted(false)
+        setFiles([])
     }
 
     return (
@@ -52,7 +64,16 @@ export default function AddTodo({ addNewTodo, parentId }: AddTodoProps) {
                             <option>high</option>
                             <option>medium</option>
                             <option>normal</option>
-                        </select>
+                    </select>
+
+                    <Modal textButton={files.length ? 'show files' : 'add files' }>
+                        <Uploader
+                            updateFileList={updateFileList}
+                            deleteImg={deleteImg}
+                            files={files }
+                        />
+                    </Modal>
+                    {files.length > 0 && <p>добавлено {files.length} файлов</p>}
                         <BlackButton
                             onClick={() => setFormCompleted(true)}
                             type='submit'

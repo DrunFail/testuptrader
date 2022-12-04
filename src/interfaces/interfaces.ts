@@ -43,7 +43,7 @@ export interface Todo {
     dateEnd: Date | null | Moment | number,
     parentId: number | null,
     priority: PriorityStatus,
-    files: string | null,
+    files: string[] | null,
     currentStatus: CurrentStatus,
     nestedTodo: Todo[],
     comments: WrapperComment
