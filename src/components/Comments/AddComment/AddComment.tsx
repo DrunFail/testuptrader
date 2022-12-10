@@ -1,23 +1,24 @@
 import { useRef, useState } from 'react';
-import CustomButton from '../../../ui/buttons/CustomButton/CustomButton';
 import styles from './AddComment.module.scss';
 
 
 interface AddCommentProps {
-    addComment: (rootComment: string) => void,
+    addNewComment: (commentValue: string, parentId?: string ) => void,
+    parentComment?: string
 }
 
 
-export default function AddComment({ addComment }: AddCommentProps) {
+export default function AddComment({addNewComment, parentComment }: AddCommentProps) {
     const [commentAdd, setCommentAdd] = useState(false)
 
-    const rootCommentRef = useRef<HTMLTextAreaElement>(null)
+    const commentRef = useRef<HTMLTextAreaElement>(null)
 
-    const addNewComment = () => {
-        if (rootCommentRef.current) {
-            addComment(rootCommentRef.current.value)
+
+    const handleSubmit = (e: any) => {
+        e.preventDefault();
+        if (commentRef.current !== null) { 
+            addNewComment(commentRef.current.value, parentComment)
         }
-        setCommentAdd(true)
     }
 
 
@@ -26,11 +27,11 @@ export default function AddComment({ addComment }: AddCommentProps) {
             {commentAdd ||
                 <form
                     className={styles.form}
-                    onSubmit={(e) => e.preventDefault()}>
+                    onSubmit={handleSubmit}>
                     <h1>add Comment</h1>
                     <label>enter comment</label>
-                    <textarea required ref={rootCommentRef} />
-                    <CustomButton children='submit' onClick={addNewComment} />
+                    <textarea required ref={commentRef} />
+                    <button type='submit'>send</button>
                 </form>}
 
             {commentAdd &&

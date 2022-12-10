@@ -9,11 +9,11 @@ import styles from './CommentCard.module.scss';
 
 interface CommentCardProps {
     comment: MapperComment,
-    addComment: (parentNodeId: string | null, commentValue: string) => void
+    addNewComment: any
 }
 
 
-export default function CommentCard({ comment, addComment }: CommentCardProps) {
+export default function CommentCard({ comment, addNewComment }: CommentCardProps) {
     const [showNestedComment, setShowNestedComment] = useState(true);
 
     const { commentText, childComments, id } = comment;
@@ -22,10 +22,6 @@ export default function CommentCard({ comment, addComment }: CommentCardProps) {
         setShowNestedComment(showNestedComment => !showNestedComment)
     }
 
-    const addNestedComment = (childComment: string) => {
-        addComment(id, childComment);
-    };
-
 
     return (
         <>
@@ -33,7 +29,7 @@ export default function CommentCard({ comment, addComment }: CommentCardProps) {
                 <p className={styles.commentTitle}>{commentText} </p>
 
                 <Modal textButton='add reply'>
-                    <AddComment addComment={addNestedComment} />
+                    <AddComment parentComment={comment.id} addNewComment={addNewComment } />
                 </Modal>
 
                 {childComments.length > 0 &&
@@ -47,8 +43,9 @@ export default function CommentCard({ comment, addComment }: CommentCardProps) {
             {comment.childComments.length > 0 &&
                 <NestedComment
                     stateShow={showNestedComment}
-                    childComments={childComments}
-                    addComment={addComment}
+                childComments={childComments}
+                addNewComment={addNewComment}
+                    
                 />
             }
         </>

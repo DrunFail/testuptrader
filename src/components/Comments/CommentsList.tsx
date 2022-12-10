@@ -1,63 +1,60 @@
-import { useEffect, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
-import { Comment, MapperComment, WrapperComment } from "../../interfaces/interfaces";
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { Comment, MapperComment } from "../../interfaces/interfaces";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks/newhooks";
+import { addComment, fetchComments } from "../../redux/reducers/comments/actions";
 import Modal from "../Modal/Modal";
 import AddComment from "./AddComment/AddComment";
 import CommentCard from "./CommentCard/CommentCard";
 import styles from './CommentList.module.scss';
+import { getNewComment } from "./helper";
 
 
-const getNewComment = (commentValue: string, isRootNode = false, parentNodeId: string | null): Comment => {
-    return {
-        id: uuidv4(),
-        commentText: commentValue,
-        parentNodeId,
-        isRootNode,
-        childComments: [],
-    };
-};
+export default function CommentList() {
+    const dispatch = useAppDispatch();
+
+    const { comments, loading, error } = useAppSelector(state => state.comments)
 
 
-interface CommentListProps {
-    updateTodoList: (id: number, newComment: WrapperComment) => void,
-    id: number,
-    commentsList: WrapperComment
-}
-
-
-
-export default function CommentList({ updateTodoList, id, commentsList }: CommentListProps) {
-    const [comments, setComments] = useState<WrapperComment>({});
-    const initialState = commentsList ? commentsList : {}
+    const { projectId } = useParams();
+    if (!projectId) {
+        throw new Error('error')
+    }
 
 
     useEffect(() => {
-        setComments(initialState)
+        dispatch<any>(fetchComments(+projectId))
     }, [])
 
+    if (loading) {
+        return <h1>Идет загрузка...</h1>
+    }
+    if (error) {
+        return <h1>{error}</h1>
+    }
 
-    useEffect(() => {
-        updateTodoList(id, comments)
-    }, [comments])
 
-
-    const addComment = (parentNodeId: string | null, commentValue: string) => {
+    const addNewComment = (commentValue: string, parentNodeId?: string ) => {
         let newComment: Comment;
+        let combineComment
         if (parentNodeId) {
             newComment = getNewComment(commentValue, false, parentNodeId);
-            setComments((comments) => ({
+            combineComment = {
                 ...comments,
+                ...{ [newComment.id]: newComment },
                 [parentNodeId]: {
                     ...comments[parentNodeId],
-                    childComments: [...comments[parentNodeId].childComments, newComment.id],
-                },
-            }));
+                    childComments: [...comments[parentNodeId].childComments, newComment.id]
+                }
+            }
+           
         } else {
             newComment = getNewComment(commentValue, true, null);
+            combineComment = { ...comments, ...{[newComment.id]: newComment}}
         }
-        setComments((comments) => ({ ...comments, [newComment.id]: newComment }));
-    };
-
+         
+         dispatch<any>(addComment(combineComment))
+    }
 
     const commentMapper = (comment: Comment): MapperComment => {
         return {
@@ -76,10 +73,6 @@ export default function CommentList({ updateTodoList, id, commentsList }: Commen
         .map(commentMapper);
 
 
-    const addParentComment = (rootComment: string) => {
-        addComment(null, rootComment);
-    };
-
 
     return (
         <section className={styles.container}>
@@ -87,7 +80,7 @@ export default function CommentList({ updateTodoList, id, commentsList }: Commen
             {!Object.keys(comments).length && <p> there no comment</p>}
 
             <Modal textButton='add'>
-                <AddComment addComment={addParentComment} />
+                <AddComment addNewComment={addNewComment} />
             </Modal>
 
             <section className={styles.commentList}>
@@ -96,7 +89,8 @@ export default function CommentList({ updateTodoList, id, commentsList }: Commen
                         <CommentCard
                             key={id}
                             comment={comment}
-                            addComment={addComment} />
+                            addNewComment={addNewComment}
+                             />
                     );
                 })}
             </section>
