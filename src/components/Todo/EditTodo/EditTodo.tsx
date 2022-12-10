@@ -1,15 +1,25 @@
 import { useState } from "react";
+import { useParams } from "react-router-dom";
 import { Todo } from "../../../interfaces/interfaces";
+import { useAppDispatch } from "../../../redux/hooks/newhooks";
+import { updateNestedTodo } from "../../../redux/reducers/nestedTodo/actions";
+import { updateTodo } from "../../../redux/reducers/todos/actions";
 import styles from './EditTodo.module.scss';
 
 
 interface EditTodoProps {
     item: Todo,
-    updateTodo: (id: number, newTododo: any, parentId?: any) => void
 }
 
 
-export default function EditTodo({ item, updateTodo }: EditTodoProps) {
+export default function EditTodo({ item }: EditTodoProps) {
+    const dispatch = useAppDispatch();
+    const { projectId } = useParams();
+    if (!projectId) {
+        throw new Error('error projectId')
+    }
+
+
     const [updatedItem, setUpdatedItem] = useState<any>({
         title: item.title,
         description: item.description,
@@ -18,14 +28,19 @@ export default function EditTodo({ item, updateTodo }: EditTodoProps) {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        updateTodo(item.id, updatedItem, item.parentId)
+        if (item.todoId) {
+            dispatch<any>(updateNestedTodo(+projectId,item.id, item.todoId, updatedItem))
+        } else {
+            dispatch<any>(updateTodo(+projectId, item.id, updatedItem))
+        }
+        
     }
 
 
     return (
         <section className={styles.container}>
             <h1>form editing</h1>
-            <form onSubmit={(e) => handleSubmit} className={styles.form}>
+            <form onSubmit={handleSubmit} className={styles.form}>
                 <label>change title</label>
                 <input
                     onChange={(e) => setUpdatedItem({ ...updatedItem, title: e.target.value })}
