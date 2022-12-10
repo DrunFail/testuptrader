@@ -41,12 +41,13 @@ export interface Todo {
     dateCreated: Date | Moment | string,
     timeWork: null,
     dateEnd: Date | null | Moment | number,
-    parentId: number | null,
+    projectId?: number,
     priority: PriorityStatus,
     files: string[] | null,
     currentStatus: CurrentStatus,
     nestedTodo: Todo[],
-    comments: WrapperComment
+    comments: WrapperComment,
+    todoId?: number
 }
 
 
@@ -57,5 +58,5 @@ export interface Todo {
 export interface Projects {
     id: number,
     title: string,
-    tasks: Todo[]
+    tasks: Todo[] | never[]
 }

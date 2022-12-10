@@ -1,33 +1,34 @@
 import moment from "moment";
 import { useState } from "react";
-import { Todo, WrapperComment } from "../../../interfaces/interfaces";
+import { useParams } from "react-router-dom";
+import { Todo } from "../../../interfaces/interfaces";
+import Arrow from "../../../ui/Arrow/Arrow";
 import FileIcon from "../../../ui/SVGComponents/FileIcon";
 import CommentList from "../../Comments/CommentsList";
 import Modal from "../../Modal/Modal";
-import AddTodo from "../AddTodo/AddTodo";
 import DeleteTodo from "../DeleteTodo/DeleteTodo";
 import EditTodo from "../EditTodo/EditTodo";
+import NestedTodo from "../NestedTodo/NestedTodo";
 import styles from './TodoItemCard.module.scss';
+
 
 interface TodoItemCardProps {
     item: Todo,
     handleDragging: (dragging: boolean) => void,
-    updateTodo: (id: number, newTododo: any) => void,
-    deleteTodo: (id: number, parentId?: number | null) => void,
-    addNewTodo: (newTodo: Todo, parentId?: number | undefined) => void,
-    updateTodoList: (id: number, newComment: WrapperComment) => void,
-    
-   
 }
 
 
-export default function TodoItemCard({ item, handleDragging, updateTodo, deleteTodo, addNewTodo, updateTodoList}: TodoItemCardProps) {
+export default function TodoItemCard({ item, handleDragging }: TodoItemCardProps) {
     const [openTodoCard, setOpenTodoCard] = useState(false);
     const width = document.documentElement.clientWidth;
-
+    const { projectId } = useParams();
+    if (!projectId) {
+        throw new Error('error projectId')
+    }
     const transferId = JSON.stringify({
         id: item.id,
-        parentId: item.parentId
+        projectId,
+        todoId: item.todoId
 
     })
 
@@ -39,81 +40,72 @@ export default function TodoItemCard({ item, handleDragging, updateTodo, deleteT
 
     const handleDragEnd = () => handleDragging(false)
 
-    const handleDelete = () => {
-        deleteTodo(item.id, item.parentId)
-    }
+
 
     const newOnClick = () => {
         if (width < 500) {
             setOpenTodoCard(!openTodoCard)
         }
     }
-    
 
-   
+    const handleOpenCard = () => {
+        if (item.projectId) {
+            setOpenTodoCard(openTodoCard => !openTodoCard)
+        }
+    }
+
+
 
     return (
         <>
-            <div 
+            <div
                 id={`${item.id}`}
                 className={styles.container}
                 draggable
                 onDragStart={handleDragStart}
                 onDragEnd={handleDragEnd}
-                onClick={newOnClick }
-            >
-                {item.nestedTodo && <div
-                    className={styles[openTodoCard ? 'openArrow' : 'arrow']}
-                    onClick={() => {
-                        if (item.parentId) {
-                            return
-                        }
-                        setOpenTodoCard(!openTodoCard)
-                    }}
-                >
-                    <span className={styles.arrowLeft}></span>
-                    <span className={styles.arrowRight}></span>
-                </div>}
-                
+                onClick={newOnClick} >
+
+                {item.projectId &&
+                    <Arrow
+                        stateShow={openTodoCard}
+                        handler={handleOpenCard} />
+                }
+
                 <p><span>ID</span><span>{item.id}</span> </p>
                 <p><span>Priority</span> {item.priority}</p>
                 <p><span>Status</span> {item.currentStatus}</p>
                 <p><span>Name</span>  {item.title}</p>
-                <p><span>Date created</span> {moment(item.dateCreated).calendar() }</p>
+                <p><span>Date created</span> {moment(item.dateCreated).calendar()}</p>
                 <p><span>Time in work </span>{moment(item.dateCreated).fromNow()}</p>
                 <p><span>Date completed</span> {moment(item.dateEnd).calendar()}</p>
-                
-                {width < 900 || <>
-                    <p   className={styles.icon }><span>files</span>{item.files?.length &&  <FileIcon /> }  </p>
-                    
-                    
 
-                 <Modal children=<EditTodo updateTodo={updateTodo}  item={item }/> textButton='edit' />
-                    <Modal children={<DeleteTodo handleDelete={handleDelete} />} textButton='delete' />
-                </> 
+                {width < 900 || <>
+                    <p className={styles.icon}><span>files</span>{item.files?.length && <FileIcon />}  </p>
+
+
+
+                    <Modal textButton='edit' >
+                        <EditTodo item={item} />
+                    </Modal>
+
+                    <Modal textButton='delete' >
+                        <DeleteTodo todoId={item.id} parentTodoId={item.todoId} />
+                    </Modal>
+                </>
                 }
-               
+
             </div>
             {openTodoCard &&
                 <>
-                <div className={styles.nestedTodo}>
-                    <h5>mini Todo</h5>
-                    <Modal textButton='add minitask' children={<AddTodo addNewTodo={addNewTodo} parentId={item.id } /> }/>
-                        {item.nestedTodo.map((item) =>
-                            <TodoItemCard
-                                key={item.id}
-                                handleDragging={handleDragging}
-                                item={item}
-                                addNewTodo={addNewTodo}
-                                deleteTodo={deleteTodo}
-                                updateTodo={updateTodo}
-                                updateTodoList={updateTodoList }
-                            />)}
-                    </div>
-                <CommentList id={item.id} updateTodoList={updateTodoList} commentsList={item.comments }/> 
-                    
+                    <NestedTodo
+                        handleDragging={handleDragging}
+                        projectId={+projectId}
+                        parentTodoId={item.id}
+                    />
+                    <CommentList />
                 </>
-
             }
-        </>);
+        </>
+    );
 }

@@ -1,6 +1,11 @@
 import moment from 'moment';
 import { useState } from 'react';
-import { CurrentStatus, Todo } from '../../../interfaces/interfaces';
+import { CurrentStatus, PriorityStatus, Todo } from '../../../interfaces/interfaces';
+import { useAppDispatch, useAppSelector } from '../../../redux/hooks/newhooks';
+import { addNestedTodo } from '../../../redux/reducers/nestedTodo/actions';
+import { newNestedTodoId } from '../../../redux/reducers/nestedTodo/selectors';
+import { addTodos } from '../../../redux/reducers/todos/actions';
+import { newTodoId } from '../../../redux/reducers/todos/selectors';
 import BlackButton from '../../../ui/blackButton/BlackButton';
 import Modal from '../../Modal/Modal';
 import Uploader from '../../Uploader/Uploader';
@@ -8,14 +13,21 @@ import styles from './AddTodo.module.scss';
 
 
 interface AddTodoProps {
-    addNewTodo: (newTodo: Todo, parentId?: number) => void,
-    parentId?: number
+    projectId: number,
+    todoId?: number
 }
 
-export default function AddTodo({ addNewTodo, parentId }: AddTodoProps) {
+export default function AddTodo({ projectId, todoId }: AddTodoProps) {
     const [formCompleted, setFormCompleted] = useState(true);
     const [files, setFiles] = useState<File[]>([]);
+    const dispatch = useAppDispatch();
+
+
+
+   let newId = useAppSelector(todoId ? newNestedTodoId : newTodoId)
     
+    
+
     const updateFileList = (files: FileList) => setFiles(Object.values(files))
     
     const deleteImg = (fileName: string) => setFiles(files => files.filter(file => file.name !== fileName))
@@ -23,23 +35,30 @@ export default function AddTodo({ addNewTodo, parentId }: AddTodoProps) {
     const getURlFile = files.map(file => URL.createObjectURL(file))
 
 
+    
 
     const handleSubmit = (e: any) => {
         e.preventDefault();
         const form = e.target;
-        const newTodo:any = {
+        const newTodo: Todo = {
+            id: newId,
             title: form.title.value,
             description: form.body.value,
             dateCreated: moment(),
             priority: form.priority.value,
             currentStatus: CurrentStatus.Queue,
             dateEnd: null,
-            parentId: null,
             files: getURlFile,
             nestedTodo: [],
-            comments: {}
+            comments: {},
+            timeWork: null
         }
-        addNewTodo(newTodo, parentId)
+        if (todoId) {
+            dispatch<any>(addNestedTodo(projectId, todoId, { ...newTodo, todoId }))
+        } else {
+            dispatch<any>(addTodos(projectId, { ...newTodo, projectId }))
+        }
+       
         setFormCompleted(false)
         setFiles([])
     }
@@ -61,9 +80,9 @@ export default function AddTodo({ addNewTodo, parentId }: AddTodoProps) {
                         <label htmlFor='body'>enter description</label>
                         <textarea id='body' />
                         <select id='priority'>
-                            <option>high</option>
-                            <option>medium</option>
-                            <option>normal</option>
+                        <option>{PriorityStatus.High}</option>
+                        <option>{PriorityStatus.Medium}</option>
+                        <option>{PriorityStatus.Normal}</option>
                     </select>
 
                     <Modal textButton={files.length ? 'show files' : 'add files' }>

@@ -6,11 +6,11 @@ import { MapperComment } from '../../../interfaces/interfaces';
 interface NestedCommentProps {
     stateShow: boolean,
     childComments: MapperComment[],
-    addComment: (parentNodeId: string | null, commentValue: string) => void
+    addNewComment: (commentValue: string, parentId?: string) => void
 }
 
 
-export default function NestedComment({ stateShow, childComments, addComment }: NestedCommentProps) {
+export default function NestedComment({ stateShow, childComments, addNewComment }: NestedCommentProps) {
     return (
         <div className={styles.nestedComment}>
             {stateShow &&
@@ -19,7 +19,8 @@ export default function NestedComment({ stateShow, childComments, addComment }: 
                         <CommentCard
                             key={key}
                             comment={childCommentEl}
-                            addComment={addComment}
+                            addNewComment={addNewComment }
+                            
                         />
                     );
                 })
