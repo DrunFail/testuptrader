@@ -9,26 +9,18 @@ interface DragNDropProps {
 }
 
 
-export default function DragNDrop({isDragging, handleDragging}: DragNDropProps) {
-    const getClassName = (isDragging: Boolean): string => {
-        if (isDragging) {
-            return 'active'
-        }
-        return 'container'
-    }
-
+export default function DragNDrop({ isDragging, handleDragging }: DragNDropProps) {
     return (
-        <div className={styles[getClassName(isDragging)] }>
-            {Object.entries(CurrentStatus).map(([key, value]) => <DragCard
-                key={key}
-                elem={value}
-                isDragging={isDragging}
-                handleDragging={handleDragging}
-                
+        <div className={styles[isDragging ? 'active' : 'container']}>
 
-            />
-                )}
+            {Object.entries(CurrentStatus).map(([key, value]) =>
+                <DragCard
+                    key={key}
+                    elem={value}
+                    isDragging={isDragging}
+                    handleDragging={handleDragging}
+                />
+            )}
         </div>
-        
-        );
+    );
 }

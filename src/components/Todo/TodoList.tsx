@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import {  Todo } from "../../interfaces/interfaces";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks/newhooks";
 import { fetchTodos } from "../../redux/reducers/todos/actions";
 import DragNDrop from "../DragNDrop/DragNDrop";
@@ -27,44 +26,11 @@ export default function TodoList() {
         dispatch<any>(fetchTodos(+projectId))
     }, [])
 
-
-
-
-    let newId: number = 1;
-
-    if (todos.length) {
-        newId = +todos[todos.length - 1].id + 1
+    if (loading) {
+        return <h1>Идет загрузка...</h1>
     }
-
-
-    let filteredTodo: Todo[] = []
-
-
-    const searchItem = (arr: Todo[]) => {
-        if (dataSearch) {
-            if (+dataSearch) {
-                arr.map((elem: Todo) => {
-                    if (elem.id == +dataSearch) {
-                        filteredTodo.push(elem)
-                    }
-                    if (elem.nestedTodo.length) {
-                        return searchItem(elem.nestedTodo)
-                    }
-                })
-            }
-            else {
-                arr.map((elem: Todo) => {
-                    if (elem.title.toLowerCase().includes(dataSearch.toLowerCase())) {
-                        filteredTodo.push(elem)
-                    }
-                    if (elem.nestedTodo.length) {
-                        return searchItem(elem.nestedTodo)
-                    }
-                })
-            }
-        } else {
-            filteredTodo = arr
-        }
+    if (error) {
+        return <h1>{error}</h1>
     }
 
 
@@ -74,7 +40,6 @@ export default function TodoList() {
     const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
         setDataSearch(e.target.value)
     }
-
 
     return (
         <>

@@ -28,8 +28,6 @@ export default function DeleteTodo({ todoId, parentTodoId }: DeleteTodoProps) {
         }
     }
 
-
-
     return (
         <div className={styles.alert}>
             {deleteTodo || <>

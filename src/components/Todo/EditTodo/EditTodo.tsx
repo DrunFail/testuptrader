@@ -36,7 +36,6 @@ export default function EditTodo({ item }: EditTodoProps) {
         
     }
 
-
     return (
         <section className={styles.container}>
             <h1>form editing</h1>

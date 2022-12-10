@@ -1,6 +1,6 @@
 import { RootState } from "../../store"
 
-export const selectNestedTodos = (state: RootState) => state.todos.todos
+export const selectTodos = (state: RootState) => state.todos
 
 export const newTodoId = (state: RootState) => {
     if (state.todos.todos.length) {

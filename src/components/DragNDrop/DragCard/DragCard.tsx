@@ -32,7 +32,7 @@ export default function DragCard({ elem, isDragging, handleDragging }: DragCardP
         e.preventDefault()
         const getId = e.dataTransfer.getData('text')
         const x = JSON.parse(getId)
-        const {projectId,todoId, id } = x
+        const { projectId, todoId, id } = x
         if (todoId) {
             dispatch<any>(changeStatusNestedTodo(projectId, id, todoId, elem))
         } else {

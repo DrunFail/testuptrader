@@ -1,28 +1,20 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { v4 as uuidv4 } from "uuid";
-import { Comment, MapperComment, WrapperComment } from "../../interfaces/interfaces";
+import { Comment, MapperComment } from "../../interfaces/interfaces";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks/newhooks";
 import { addComment, fetchComments } from "../../redux/reducers/comments/actions";
 import Modal from "../Modal/Modal";
 import AddComment from "./AddComment/AddComment";
 import CommentCard from "./CommentCard/CommentCard";
 import styles from './CommentList.module.scss';
-
-
-const getNewComment = (commentValue: string, isRootNode = false, parentNodeId: string | null): Comment => {
-    return {
-        id: uuidv4(),
-        commentText: commentValue,
-        parentNodeId,
-        isRootNode,
-        childComments: [],
-    };
-};
+import { getNewComment } from "./helper";
 
 
 export default function CommentList() {
     const dispatch = useAppDispatch();
+
+    const { comments, loading, error } = useAppSelector(state => state.comments)
+
 
     const { projectId } = useParams();
     if (!projectId) {
@@ -34,8 +26,13 @@ export default function CommentList() {
         dispatch<any>(fetchComments(+projectId))
     }, [])
 
+    if (loading) {
+        return <h1>Идет загрузка...</h1>
+    }
+    if (error) {
+        return <h1>{error}</h1>
+    }
 
-    const { comments, loading, error } = useAppSelector(state => state.comments)
 
     const addNewComment = (commentValue: string, parentNodeId?: string ) => {
         let newComment: Comment;
@@ -57,8 +54,6 @@ export default function CommentList() {
         }
          
          dispatch<any>(addComment(combineComment))
-        
-        
     }
 
     const commentMapper = (comment: Comment): MapperComment => {
