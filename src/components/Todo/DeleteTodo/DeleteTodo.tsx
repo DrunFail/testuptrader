@@ -1,14 +1,34 @@
 import { useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { useAppDispatch } from '../../../redux/hooks/newhooks';
+import { deleteNestedTodo } from '../../../redux/reducers/nestedTodo/actions';
+import { deleteTodos } from '../../../redux/reducers/todos/actions';
 import CustomButton from '../../../ui/buttons/CustomButton/CustomButton';
 import styles from './DeleteTodo.module.scss';
 
 interface DeleteTodoProps {
-    handleDelete: () => void
+    todoId: number,
+    parentTodoId?: number
 }
 
 
-export default function DeleteTodo({ handleDelete }: DeleteTodoProps) {
+export default function DeleteTodo({ todoId, parentTodoId }: DeleteTodoProps) {
     const [deleteTodo, setDeleteTodo] = useState(false);
+    const dispatch = useAppDispatch();
+
+    const { projectId } = useParams();
+    if (!projectId) {
+        throw new Error('error projectId')
+    }
+    const handleDelete = () => {
+        if (parentTodoId) {
+            dispatch<any>(deleteNestedTodo(+projectId,todoId, parentTodoId))
+        } else {
+            dispatch<any>(deleteTodos(+projectId, todoId))
+        }
+    }
+
+
 
     return (
         <div className={styles.alert}>

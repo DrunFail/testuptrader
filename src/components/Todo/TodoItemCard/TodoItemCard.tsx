@@ -1,33 +1,33 @@
 import moment from "moment";
 import { useState } from "react";
-import { Todo, WrapperComment } from "../../../interfaces/interfaces";
+import { useParams } from "react-router-dom";
+import { Todo } from "../../../interfaces/interfaces";
 import FileIcon from "../../../ui/SVGComponents/FileIcon";
 import CommentList from "../../Comments/CommentsList";
 import Modal from "../../Modal/Modal";
-import AddTodo from "../AddTodo/AddTodo";
 import DeleteTodo from "../DeleteTodo/DeleteTodo";
 import EditTodo from "../EditTodo/EditTodo";
+import NestedTodo from "../NestedTodo/NestedTodo";
 import styles from './TodoItemCard.module.scss';
+
 
 interface TodoItemCardProps {
     item: Todo,
     handleDragging: (dragging: boolean) => void,
-    updateTodo: (id: number, newTododo: any) => void,
-    deleteTodo: (id: number, parentId?: number | null) => void,
-    addNewTodo: (newTodo: Todo, parentId?: number | undefined) => void,
-    updateTodoList: (id: number, newComment: WrapperComment) => void,
-    
-   
 }
 
 
-export default function TodoItemCard({ item, handleDragging, updateTodo, deleteTodo, addNewTodo, updateTodoList}: TodoItemCardProps) {
+export default function TodoItemCard({ item, handleDragging}: TodoItemCardProps) {
     const [openTodoCard, setOpenTodoCard] = useState(false);
     const width = document.documentElement.clientWidth;
-
+    const { projectId } = useParams();
+    if (!projectId) {
+        throw new Error('error projectId')
+    }
     const transferId = JSON.stringify({
         id: item.id,
-        parentId: item.parentId
+        projectId,
+        todoId: item.todoId
 
     })
 
@@ -39,9 +39,7 @@ export default function TodoItemCard({ item, handleDragging, updateTodo, deleteT
 
     const handleDragEnd = () => handleDragging(false)
 
-    const handleDelete = () => {
-        deleteTodo(item.id, item.parentId)
-    }
+    
 
     const newOnClick = () => {
         if (width < 500) {
@@ -65,10 +63,10 @@ export default function TodoItemCard({ item, handleDragging, updateTodo, deleteT
                 {item.nestedTodo && <div
                     className={styles[openTodoCard ? 'openArrow' : 'arrow']}
                     onClick={() => {
-                        if (item.parentId) {
-                            return
+                        if (item.projectId) {
+                            setOpenTodoCard(openTodoCard => !openTodoCard)
                         }
-                        setOpenTodoCard(!openTodoCard)
+                        
                     }}
                 >
                     <span className={styles.arrowLeft}></span>
@@ -88,29 +86,23 @@ export default function TodoItemCard({ item, handleDragging, updateTodo, deleteT
                     
                     
 
-                 <Modal children=<EditTodo updateTodo={updateTodo}  item={item }/> textButton='edit' />
-                    <Modal children={<DeleteTodo handleDelete={handleDelete} />} textButton='delete' />
+                 <Modal children=<EditTodo  item={item }/> textButton='edit' />
+                    <Modal children={<DeleteTodo
+                        todoId={item.id}
+                        parentTodoId={item.todoId }
+                    />} textButton='delete' />
                 </> 
                 }
                
             </div>
             {openTodoCard &&
                 <>
-                <div className={styles.nestedTodo}>
-                    <h5>mini Todo</h5>
-                    <Modal textButton='add minitask' children={<AddTodo addNewTodo={addNewTodo} parentId={item.id } /> }/>
-                        {item.nestedTodo.map((item) =>
-                            <TodoItemCard
-                                key={item.id}
-                                handleDragging={handleDragging}
-                                item={item}
-                                addNewTodo={addNewTodo}
-                                deleteTodo={deleteTodo}
-                                updateTodo={updateTodo}
-                                updateTodoList={updateTodoList }
-                            />)}
-                    </div>
-                <CommentList id={item.id} updateTodoList={updateTodoList} commentsList={item.comments }/> 
+                <NestedTodo
+                    handleDragging={handleDragging}
+                    projectId={+projectId}
+                    parentTodoId={item.id }
+                />
+                <CommentList  /> 
                     
                 </>
 

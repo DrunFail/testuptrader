@@ -1,7 +1,7 @@
 import { Projects, CurrentStatus, PriorityStatus } from "../interfaces/interfaces";
 
 
-export const PROJECT_DATA: Projects[] = [
+export const PROJECT_DATA = [
     {
         'id': 1,
         'title': 'Project 1',

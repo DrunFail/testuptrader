@@ -1,17 +1,22 @@
 import { useState } from 'react';
 import styles from './DragCard.module.scss';
 import { CurrentStatus } from '../../../interfaces/interfaces';
+import { changeStatusNestedTodo } from '../../../redux/reducers/nestedTodo/actions';
+import { useAppDispatch } from '../../../redux/hooks/newhooks';
+import { changeStatusTodo } from '../../../redux/reducers/todos/actions';
 
 interface DragCardProps {
     elem: CurrentStatus,
     isDragging: boolean,
     handleDragging: (dragging: boolean) => void,
-    changeStatus: (id: number, newStatus: CurrentStatus, parentId:number) => void
 }
 
 
-export default function DragCard({ elem, isDragging, handleDragging,changeStatus }: DragCardProps) {
+export default function DragCard({ elem, isDragging, handleDragging }: DragCardProps) {
     const [dragEnter, setDragEnter] = useState(false)
+
+    const dispatch = useAppDispatch()
+
 
     const getClassName = (isDragging: boolean, dragEnter: boolean) => {
         if (dragEnter) {
@@ -27,8 +32,12 @@ export default function DragCard({ elem, isDragging, handleDragging,changeStatus
         e.preventDefault()
         const getId = e.dataTransfer.getData('text')
         const x = JSON.parse(getId)
-        const {id, parentId } = x
-        changeStatus(id,elem, parentId)
+        const {projectId,todoId, id } = x
+        if (todoId) {
+            dispatch<any>(changeStatusNestedTodo(projectId, id, todoId, elem))
+        } else {
+            dispatch<any>(changeStatusTodo(projectId, id, elem))
+        }
         handleDragging(false)
     }
     const handleDragEnter = (e: React.DragEvent<HTMLDivElement>) => {

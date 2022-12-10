@@ -6,11 +6,10 @@ import styles from './DragNDrop.module.scss';
 interface DragNDropProps {
     isDragging: boolean,
     handleDragging: (dragging: boolean) => void,
-    changeStatus: (id: number, newStatus: CurrentStatus, parentId?: number) => void
 }
 
 
-export default function DragNDrop({isDragging, handleDragging, changeStatus }: DragNDropProps) {
+export default function DragNDrop({isDragging, handleDragging}: DragNDropProps) {
     const getClassName = (isDragging: Boolean): string => {
         if (isDragging) {
             return 'active'
@@ -25,7 +24,7 @@ export default function DragNDrop({isDragging, handleDragging, changeStatus }: D
                 elem={value}
                 isDragging={isDragging}
                 handleDragging={handleDragging}
-                changeStatus={changeStatus}
+                
 
             />
                 )}
